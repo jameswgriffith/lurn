@@ -4,8 +4,10 @@ Title: Tools for LURN/LURN-II Research: Scoring the LURN SI-10 and LURN SI-29
 Version: 0.1.0
 Author: James W Griffith
 Maintainer: James W Griffith <j-griffith@northwestern.edu>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Description: This package is primarily use for scoring of the LURN SI-10 and 
+    LURN SI-29. Additional tools related to LURN research may be added in the future.
+URL: https://nih-lurn.org/
+License: GPL-3
 Encoding: UTF-8
 LazyData: true
+RoxygenNote: 7.1.2
