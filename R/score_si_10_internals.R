@@ -133,3 +133,12 @@ max_possible_si_10 <- function(si_10_items) {
   (!is.na(si_10_items)) %*% max_item_responses
 
 }
+
+
+# data --------------------------------------------------------------------
+
+#' Synthetic data for testing, based on format from LURN I
+#'
+#' @format A dataframe with 13 variables and 7 observations
+"lurn_si_10_test_data"
+
