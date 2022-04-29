@@ -21,12 +21,16 @@
 #' variables that may be desired by the user. The user can request all
 #' possible variables by specifying "all". Individual options are:
 #' \itemize{
+#'  \item{all - }{Returns all possible options}
 #'  \item{lurn_si_10_score - }{LURN SI-10 Score}
 #'  \item{lurn_si_count_valid - }{A count of the number of valid items for scoring}
 #'  \item{lurn_si_10_floor - }{Is the score at the minumum possible value, 0 (i.e., the floor)?}
 #'  \item{lurn_si_10_ceiling - }{Is the score at the minumum possible values, 38 (i.e., the floor)?}
 #'  \item{lurn_si_10_note - }{Notes on how the case was scored}
 #' }
+#'
+#' @param rename_returned_vars_to If desired, the user can specify
+#' the variable names for `returned_vars`.
 #'
 #' @param transfer_vars A vector of variable names to be found in input.
 #' These variables will be returned in the output along with SI-10 scores
@@ -47,12 +51,13 @@ score_lurn_si_10 <- function(input,
                              si_10_names = paste0("SI10_Q", 1:10),
                              returned_vars = c("lurn_si_10_score",
                                                "lurn_si_10_count_valid"),
+                             rename_returned_vars_to = NULL,
                              transfer_vars = names(input),
                              warn_or_stop = c("warn", "stop")) {
 
-  warn_or_stop <- match.arg(warn_or_stop)
+  warn_or_stop <- match.arg(warn_or_stop, c("warn", "stop"))
 
-  # Convert vector to one-row dataframe
+  # Convert vector to one-row dataframe, if needed
   if(is.vector(input)) {
     input <- as.data.frame(t(input))
   }
@@ -61,6 +66,8 @@ score_lurn_si_10 <- function(input,
   check_args_score_lurn_si_10(input = input,
                               si_10_names = si_10_names,
                               returned_vars = returned_vars,
+                              rename_returned_vars_to =
+                                rename_returned_vars_to,
                               transfer_vars = transfer_vars,
                               warn_or_stop = warn_or_stop)
 
@@ -83,9 +90,7 @@ score_lurn_si_10 <- function(input,
 
   # Recode input to numeric
   si_10_recoded <- suppressWarnings(
-    apply(si_10,
-          2,
-          as.numeric))
+    sapply(si_10, as.numeric))
 
   si_10_recoded[1:8] <- out_of_rng_to_na(as.matrix(si_10_recoded[1:8]), 0:4)
   si_10_recoded[9:10] <- out_of_rng_to_na(as.matrix(si_10_recoded[9:10]), 0:3)
@@ -101,8 +106,6 @@ score_lurn_si_10 <- function(input,
   count_valid <- apply(si_10_recoded,
                        1,
                        function(x) {sum(!is.na(x))})
-
-  # si_10_item_sum <- rowSums(si_10_recoded, na.rm = TRUE)
 
   si_10_item_sum <- apply(si_10_recoded,
                           1,
@@ -138,9 +141,16 @@ score_lurn_si_10 <- function(input,
     lurn_si_10_ceiling,
     lurn_si_10_note)
 
+  lurn_si_10_all_output <- lurn_si_10_all_output[returned_vars]
+
+  if(!is.null(rename_returned_vars_to)) {
+    names(lurn_si_10_all_output) <- rename_returned_vars_to
+  }
+
+
   output <- cbind(
     input[transfer_vars],
-    lurn_si_10_all_output[returned_vars])
+    lurn_si_10_all_output)
 
   return(output)
 
