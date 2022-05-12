@@ -5,32 +5,17 @@
 #' other variables from input requested by the user
 #'
 #' @details
-#' If only a subset of variables are desired, the column names can be
-#' specified in transfer_vars. It should be noted that out-of-range
+#' If only a subset of variables are desired to be returned,
+#' the column names can be specified in transfer_vars.
+#' It should be noted that out-of-range
 #' values in the items are recoded to NA. Moreover, any character data
-#' will be coerced to numeric as part of the scoring.
+#' will be coerced to numeric or NA as part of the scoring.
 #'
 #' @param input A dataframe containing LURN SI-10 items. Other columns may also
-#' be present and will be returned by the function (if desired).
-#'
-#' @param si_10_names A vector that identifies the names of the LURN SI-10
-#' items in the "input" data frame. We strongly recommend that you use the
-#' recommended names SI10_Q1 - SI10_Q10.
-#'
-#' @param returned_vars A vector containing a list of additional scoring
-#' variables that may be desired by the user. The user can request all
-#' possible variables by specifying "all". Individual options are:
-#' \itemize{
-#'  \item{all - }{Returns all possible options}
-#'  \item{lurn_si_10_score - }{LURN SI-10 Score}
-#'  \item{lurn_si_count_valid - }{A count of the number of valid items for scoring}
-#'  \item{lurn_si_10_floor - }{Is the score at the minumum possible value, 0 (i.e., the floor)?}
-#'  \item{lurn_si_10_ceiling - }{Is the score at the minumum possible values, 38 (i.e., the floor)?}
-#'  \item{lurn_si_10_note - }{Notes on how the case was scored}
-#' }
-#'
-#' @param rename_returned_vars_to If desired, the user can specify
-#' the variable names for `returned_vars`.
+#' be present and will be returned by the function (if desired). The items of
+#' the SI-10 must use the recommended names: SI10_Q1 - SI10_Q10. The input
+#' cannot contain variable names to be returned: lurn_si_10_score,
+#' lurn_si_10_count_valid, or lurn_si_10_note.
 #'
 #' @param transfer_vars A vector of variable names to be found in input.
 #' These variables will be returned in the output along with SI-10 scores
@@ -38,9 +23,15 @@
 #' @param warn_or_stop If set to "warn", warnings will notify the user that
 #' non-numeric or out-of-range data are present. If set to "stop", the
 #' warnings will be printed, but execution will stop. In this case, the user
-#' will need to fix the input data in order to proceed.
+#' will need to fix the input data in order to proceed. The default is "warn",
+#' but set to "stop" if you wish to prevent the function from executing when
+#' the input contains any out-of-range or non-numeric data.
 #'
-#' @return A dataframe of output containing SI-10 scores.
+#' @seealso lurn_si_10_names()
+#'
+#' @return A dataframe of output containing SI-10 scores,
+#' a count of valid items, and a scoring note. Any variables
+#' requested in transfer_vars will also be returned.
 #' @export
 #'
 #' @examples
@@ -48,37 +39,21 @@
 #' score_lurn_si_10(input = lurn_data)
 #' }
 score_lurn_si_10 <- function(input,
-                             si_10_names = paste0("SI10_Q", 1:10),
-                             returned_vars = c("lurn_si_10_score",
-                                               "lurn_si_10_count_valid"),
-                             rename_returned_vars_to = NULL,
                              transfer_vars = names(input),
                              warn_or_stop = c("warn", "stop")) {
 
-  warn_or_stop <- match.arg(warn_or_stop, c("warn", "stop"))
+  warn_or_stop <- match.arg(warn_or_stop)
 
   # Convert vector to one-row dataframe, if needed
-  if(is.vector(input)) {
+  if (is.vector(input)) {
     input <- as.data.frame(t(input))
   }
 
   # Check for errors in the the arguments
   check_args_score_lurn_si_10(input = input,
-                              si_10_names = si_10_names,
-                              returned_vars = returned_vars,
-                              rename_returned_vars_to =
-                                rename_returned_vars_to,
-                              transfer_vars = transfer_vars,
-                              warn_or_stop = warn_or_stop)
+                              transfer_vars = transfer_vars)
 
-  if("all" %in% returned_vars) {
-    returned_vars <- c(
-      "lurn_si_10_score",
-      "lurn_si_10_count_valid",
-      "lurn_si_10_floor",
-      "lurn_si_10_ceiling",
-      "lurn_si_10_note")
-  }
+  si_10_names <- lurn_si_10_names(include_bother_item = FALSE)
 
   # Check each column for out-of-range or non-numeric data
   check_si_10_items(si_10_names = si_10_names,
@@ -88,24 +63,25 @@ score_lurn_si_10 <- function(input,
   # Extract SI-10 items
   si_10 <- input[si_10_names]
 
-  # Recode input to numeric
-  si_10_recoded <- suppressWarnings(
-    sapply(si_10, as.numeric))
+  n <- nrow(si_10)
 
-  si_10_recoded[1:8] <- out_of_rng_to_na(as.matrix(si_10_recoded[1:8]), 0:4)
-  si_10_recoded[9:10] <- out_of_rng_to_na(as.matrix(si_10_recoded[9:10]), 0:3)
+  si_10_recoded <- suppressWarnings(
+    vapply(si_10, as.numeric, numeric(n)))
+
+  item_ranges <- lurn_si_10_item_ranges()
 
   # Convert vector to one-row dataframe
   if(is.vector(si_10_recoded)) {
     si_10_recoded <- as.data.frame(t(si_10_recoded))
   }
 
-  # Count valid responses
-  # count_valid <- rowSums(!is.na(si_10_recoded))
+  # Convert out-of-range values to NA
+  for(i in seq_len(ncol(si_10_recoded))) {
+    j <- which(!si_10_recoded[[i]] %in% item_ranges[[i]])
+    si_10_recoded[[i]][j] <- NA
+  }
 
-  count_valid <- apply(si_10_recoded,
-                       1,
-                       function(x) {sum(!is.na(x))})
+  count_valid <- count_not_na(si_10_recoded)
 
   si_10_item_sum <- apply(si_10_recoded,
                           1,
@@ -122,6 +98,7 @@ score_lurn_si_10 <- function(input,
   lurn_si_10_note <- vector(mode = "character",
                              length = nrow(input))
 
+  # Score SI-10
   for(i in seq_len(nrow(input))) {
     if(count_valid[i] > 5) {
       lurn_si_10_score[i] <- si_10_item_sum[i] / max_possible[i] * 38
@@ -131,27 +108,14 @@ score_lurn_si_10 <- function(input,
     }
   }
 
-  lurn_si_10_floor <- lurn_si_10_score == 0
-  lurn_si_10_ceiling <- lurn_si_10_score == 38
-
-  lurn_si_10_all_output <- data.frame(
+  # Prepare output
+  lurn_si_10_output <- data.frame(
     lurn_si_10_score,
     lurn_si_10_count_valid = count_valid,
-    lurn_si_10_floor,
-    lurn_si_10_ceiling,
     lurn_si_10_note)
 
-  lurn_si_10_all_output <- lurn_si_10_all_output[returned_vars]
-
-  if(!is.null(rename_returned_vars_to)) {
-    names(lurn_si_10_all_output) <- rename_returned_vars_to
-  }
-
-
-  output <- cbind(
+  # Return output
+  cbind(
     input[transfer_vars],
-    lurn_si_10_all_output)
-
-  return(output)
-
+    lurn_si_10_output)
 }

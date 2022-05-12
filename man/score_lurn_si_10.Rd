@@ -6,35 +6,16 @@
 \usage{
 score_lurn_si_10(
   input,
-  si_10_names = paste0("SI10_Q", 1:10),
-  returned_vars = c("lurn_si_10_score", "lurn_si_10_count_valid"),
-  rename_returned_vars_to = NULL,
   transfer_vars = names(input),
   warn_or_stop = c("warn", "stop")
 )
 }
 \arguments{
 \item{input}{A dataframe containing LURN SI-10 items. Other columns may also
-be present and will be returned by the function (if desired).}
-
-\item{si_10_names}{A vector that identifies the names of the LURN SI-10
-items in the "input" data frame. We strongly recommend that you use the
-recommended names SI10_Q1 - SI10_Q10.}
-
-\item{returned_vars}{A vector containing a list of additional scoring
-variables that may be desired by the user. The user can request all
-possible variables by specifying "all". Individual options are:
-\itemize{
- \item{all - }{Returns all possible options}
- \item{lurn_si_10_score - }{LURN SI-10 Score}
- \item{lurn_si_count_valid - }{A count of the number of valid items for scoring}
- \item{lurn_si_10_floor - }{Is the score at the minumum possible value, 0 (i.e., the floor)?}
- \item{lurn_si_10_ceiling - }{Is the score at the minumum possible values, 38 (i.e., the floor)?}
- \item{lurn_si_10_note - }{Notes on how the case was scored}
-}}
-
-\item{rename_returned_vars_to}{If desired, the user can specify
-the variable names for `returned_vars`.}
+be present and will be returned by the function (if desired). The items of
+the SI-10 must use the recommended names: SI10_Q1 - SI10_Q10. The input
+cannot contain variable names to be returned: lurn_si_10_score,
+lurn_si_10_count_valid, or lurn_si_10_note.}
 
 \item{transfer_vars}{A vector of variable names to be found in input.
 These variables will be returned in the output along with SI-10 scores}
@@ -42,10 +23,14 @@ These variables will be returned in the output along with SI-10 scores}
 \item{warn_or_stop}{If set to "warn", warnings will notify the user that
 non-numeric or out-of-range data are present. If set to "stop", the
 warnings will be printed, but execution will stop. In this case, the user
-will need to fix the input data in order to proceed.}
+will need to fix the input data in order to proceed. The default is "warn",
+but set to "stop" if you wish to prevent the function from executing when
+the input contains any out-of-range or non-numeric data.}
 }
 \value{
-A dataframe of output containing SI-10 scores.
+A dataframe of output containing SI-10 scores,
+a count of valid items, and a scoring note. Any variables
+requested in transfer_vars will also be returned.
 }
 \description{
 This function returns takes a dataframe, extracts the SI-10
@@ -53,13 +38,17 @@ items, calculates the SI-10 score, and returns the score along with any
 other variables from input requested by the user
 }
 \details{
-If only a subset of variables are desired, the column names can be
-specified in transfer_vars. It should be noted that out-of-range
+If only a subset of variables are desired to be returned,
+the column names can be specified in transfer_vars.
+It should be noted that out-of-range
 values in the items are recoded to NA. Moreover, any character data
-will be coerced to numeric as part of the scoring.
+will be coerced to numeric or NA as part of the scoring.
 }
 \examples{
 \dontrun{
 score_lurn_si_10(input = lurn_data)
 }
+}
+\seealso{
+lurn_si_10_names()
 }

@@ -1,8 +1,8 @@
-#' Returns scores for the SI-29 based on a dataframe of input
+#' Returns scores for the LURN SI-29 based on a dataframe of input
 #'
 #' @description This function returns takes a dataframe, extracts the
 #' LURN SI-29 items, calculates the subscale scores, and returns them
-#' along with any other variables from "input" requested by the user
+#' along with any other variables from "input" requested by the user.
 #'
 #' @details
 #' If only a subset of variables are desired, the column names can be
@@ -13,48 +13,28 @@
 #' @param input A dataframe containing LURN SI-29 items. Other columns may also
 #' be present and will be returned by the function (if desired).
 #'
-#' @param gender A variable that indicates the gender of the participant.
-#' By default this variable name is assumed to be "gender", with numeric
+#' @section Setting up your input: Gender
+#' Your input needs to contain a variable \code{Gender} with numeric
 #' values of "1" for female and "2" for male.
 #'
-#' @param gender_levels By default, gender is assumed to be numerically
-#' coded as  1 = female, 2 = male. We recommend using this coding scheme
-#' in conjunction with this scoring algorithm. If you wish a different
-#' specification, please define a column vector with the female value
-#' first and the male value second, as in:
-#' gender = c(female = 0, male = 1) or gender = c(female = "F", male = "M").
-#' Always specify female first and male second.
-#'
-#' @param si_29_names A vector that identifies the names of the LURN SI-29
-#' items in the "input" data frame. We strongly recommend that you use the
-#' recommended names.
-#'
-#' @param returned_vars A vector containing a list of additional scoring
-#' variables that may be desired by the user. The user can request all
-#' possible variables by specifying "all". Individual options are:
-#' \itemize{
-#'  \item{lurn_si_29_total - }{Overall SI-29 score (range 0 to 100)}
-#'  \item{lurn_si_29_incontinence_score - }{Incontinence score (range 0 to 100)}
-#'  \item{lurn_si_29_pain_score - }{Pain score (range 0 to 100)}
-#'  \item{lurn_si_29_voiding_score - }{Voiding difficulty score (range 0 to 100)}
-#'  \item{lurn_si_29_urgency_score - }{Urgency score (range 0 to 100)}
-#'  \item{lurn_si_29_nocturia_score - }{Nocturia score (range 0 to 100)}
-#'  \item{lurn_si_29_bother - }{Overall level of bother by urinary symptoms (same as SI29_Q28}
-#'  \item{lurn_si_29_note - }{Identifies observations with half or more missing items from the total questionnaire or individual subscale}
-#' }
-#'
-#' @param rename_returned_vars_to If desired, the user can specify
-#' the variable names for `returned_vars`.
+#' @section Setting up your input: Variable names for the LURN SI-29
+#' You must use the recommended variables names for the LURN SI-29, which
+#' have the form SI29_Q1, SI29_Q2, etc. For item #27, there is SI29_Q27a
+#' and SI29_Q27b. You can use \code{lurn_si_29_names()} to obtain a list of the
+#' recommended variable names.
 #'
 #' @param transfer_vars A vector of variable names to be found in input.
-#' These variables will be returned in the output along with SI-29 scores
+#' These variables will be returned in the output along with
+#' the LURN SI-29 scores.
 #'
-#' @param warn_or_stop If set to "warn", warnings will notify the user that
+#' @param warn_or_stop If set to "warn" (the default),
+#' warnings will notify the user that
 #' non-numeric or out-of-range data are present. If set to "stop", the
 #' warnings will be printed, but execution will stop. In this case, the user
 #' will need to fix the input data in order to proceed.
 #'
-#' @return A dataframe of output containing SI-29 scores.
+#' @return A dataframe of output containing SI-29 scores, and any variables
+#' requested in transfer_vars.
 #' @export
 #'
 #' @examples
@@ -64,39 +44,15 @@
 #' score_lurn_si_29(input = lurn_si_29_data)
 #' }
 score_lurn_si_29 <- function(input,
-                             si_29_names = lurn_si_29_names(),
-                             gender = "gender",
-                             gender_levels = c(female = 1,
-                                               male = 2,
-                                               NA),
-                             returned_vars = c("lurn_si_29_total_score",
-                                               "lurn_si_29_incontinence_score",
-                                               "lurn_si_29_pain_score",
-                                               "lurn_si_29_voiding_score",
-                                               "lurn_si_29_urgency_score",
-                                               "lurn_si_29_nocturia_score",
-                                               "lurn_si_29_bother",
-                                               "lurn_si_29_note",
-                                               "lurn_si_29_total_count_valid",
-                                               "lurn_si_29_incontinence_count_valid",
-                                               "lurn_si_29_pain_count_valid",
-                                               "lurn_si_29_voiding_count_valid",
-                                               "lurn_si_29_urgency_count_valid",
-                                               "lurn_si_29_nocturia_count_valid"),
-                             rename_returned_vars_to = NULL,
                              transfer_vars = names(input),
                              warn_or_stop = c("warn", "stop")) {
 
-  warn_or_stop <- match.arg(warn_or_stop, c("warn", "stop"))
+  warn_or_stop <- match.arg(warn_or_stop)
+
+  si_29_names <- lurn_si_29_names()
 
   # Check the input for errors
   check_args_score_lurn_si_29(input = input,
-                              si_29_names = si_29_names,
-                              gender = gender,
-                              gender_levels = gender_levels,
-                              returned_vars = returned_vars,
-                              rename_returned_vars_to =
-                                rename_returned_vars_to,
                               transfer_vars = transfer_vars,
                               warn_or_stop = warn_or_stop)
 
@@ -104,7 +60,10 @@ score_lurn_si_29 <- function(input,
   # Save vectors of 27a, 27b, and gender variable
   lurn_si_27a_women <- input[[si_29_names[27]]]
   lurn_si_27b_men <- input[[si_29_names[28]]]
-  gender <- input[[gender]]
+  gender <- input[["Gender"]]
+
+  gender_levels <- c(female = 1,
+                     male = 2)
 
   check_si_29_gender_questions(lurn_si_27a_women,
                                lurn_si_27b_men,
@@ -113,12 +72,8 @@ score_lurn_si_29 <- function(input,
 
   # Check for numeric and out-of-range questions across all 29 items
   check_si_29_vars(si_29_items = input[si_29_names],
-                   item_ranges = lurn_si_29_item_ranges(),
+                   item_ranges = lurn_si_29_item_ranges(include_na = TRUE),
                    warn_or_stop = warn_or_stop)
-
-
-  #### NEED TO FIX ####
-  # Also remove print
 
     # Recode non-numeric to NA
   si_29_items <- suppressWarnings(
@@ -126,12 +81,16 @@ score_lurn_si_29 <- function(input,
 
   si_29_items <- as.data.frame(si_29_items)
 
+  lurn_si_29_item_ranges <- lurn_si_29_item_ranges()
+
   for(i in seq_along(colnames(si_29_items))) {
-    si_29_items[, i] <-
-      out_of_rng_to_na(si_29_items[, i], lurn_si_29_item_ranges()[[i]])
+    item <- si_29_items[[i]]
+    item[!item %in% lurn_si_29_item_ranges[[i]]] <- NA
+    si_29_items[[i]] <- item
   }
 
-  si_29_items <- as.data.frame(si_29_items)
+  # Is this needed?
+  # si_29_items <- as.data.frame(si_29_items)
 
   # Organise variables by subscale
   incontinence_item_names <- si_29_names[1:6]
@@ -181,6 +140,9 @@ score_lurn_si_29 <- function(input,
   # Create a vector for SI29_Q27
   SI29_Q27 <- vector("numeric", nrow(si_29_items))
   SI29_Q27[] <- NA
+
+  # Recode to NA if gender (or "Gender" in the input) is not 1 or 2
+  gender[!gender %in% gender_levels] <- NA
 
   for(i in seq_len(nrow(si_29_items))){
     if(gender[i] == gender_levels[1]) {
@@ -235,16 +197,24 @@ score_lurn_si_29 <- function(input,
     lurn_si_29_urgency_count_valid,
     lurn_si_29_nocturia_count_valid)
 
-  lurn_si_29_all_output <- lurn_si_29_all_output[returned_vars]
-
-  if(!is.null(rename_returned_vars_to)) {
-    names(lurn_si_29_all_output) <- rename_returned_vars_to
-  }
+  returned_vars <-
+    c("lurn_si_29_total_score",
+      "lurn_si_29_incontinence_score",
+      "lurn_si_29_pain_score",
+      "lurn_si_29_voiding_score",
+      "lurn_si_29_urgency_score",
+      "lurn_si_29_nocturia_score",
+      "lurn_si_29_bother",
+      "lurn_si_29_note",
+      "lurn_si_29_total_count_valid",
+      "lurn_si_29_incontinence_count_valid",
+      "lurn_si_29_pain_count_valid",
+      "lurn_si_29_voiding_count_valid",
+      "lurn_si_29_urgency_count_valid",
+      "lurn_si_29_nocturia_count_valid")
 
   output <- cbind(
     input[transfer_vars],
-    lurn_si_29_all_output)
-
-  return(output)
+    lurn_si_29_all_output[returned_vars])
 
 }
