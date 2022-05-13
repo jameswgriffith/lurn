@@ -13,8 +13,8 @@
 #' @param input A dataframe containing LURN SI-29 items. Other columns may also
 #' be present and will be returned by the function (if desired).
 #'
-#' @section Setting up your input: Gender
-#' Your input needs to contain a variable \code{Gender} with numeric
+#' @section Setting up Gender in your input:
+#' Your input needs to contain a variable "Gender" with numeric
 #' values of "1" for female and "2" for male.
 #'
 #' @section Setting up your input: Variable names for the LURN SI-29
@@ -71,26 +71,24 @@ score_lurn_si_29 <- function(input,
                                gender_levels)
 
   # Check for numeric and out-of-range questions across all 29 items
-  check_si_29_vars(si_29_items = input[si_29_names],
-                   item_ranges = lurn_si_29_item_ranges(include_na = TRUE),
+  check_si_29_items(si_29_items = input[si_29_names],
                    warn_or_stop = warn_or_stop)
+
+  n <- nrow(input[si_29_names])
 
     # Recode non-numeric to NA
   si_29_items <- suppressWarnings(
-    sapply(input[si_29_names], as.numeric))
+    vapply(input[si_29_names], as.numeric, numeric(n)))
 
   si_29_items <- as.data.frame(si_29_items)
 
-  lurn_si_29_item_ranges <- lurn_si_29_item_ranges()
+  lurn_si_29_item_ranges <- lurn_si_29_item_ranges(include_na = FALSE)
 
   for(i in seq_along(colnames(si_29_items))) {
     item <- si_29_items[[i]]
     item[!item %in% lurn_si_29_item_ranges[[i]]] <- NA
     si_29_items[[i]] <- item
   }
-
-  # Is this needed?
-  # si_29_items <- as.data.frame(si_29_items)
 
   # Organise variables by subscale
   incontinence_item_names <- si_29_names[1:6]

@@ -39,11 +39,13 @@ specified in transfer_vars. It should be noted that out-of-range
 values in the items are recoded to NA. Moreover, any character data
 will be coerced to numeric as part of the scoring.
 }
-\section{Setting up your input}{
- Gender
-Your input needs to contain a variable \code{Gender} with numeric
-values of "1" for female and "2" for male.
+\section{Setting up Gender in your input}{
 
+Your input needs to contain a variable "Gender" with numeric
+values of "1" for female and "2" for male.
+}
+
+\section{Setting up your input}{
  Variable names for the LURN SI-29
 You must use the recommended variables names for the LURN SI-29, which
 have the form SI29_Q1, SI29_Q2, etc. For item #27, there is SI29_Q27a
