@@ -1,8 +1,3 @@
-#' Check the arguments of the score_lurn_si_10
-#' @param input is an file supplied by the user containing LURN SI-10 data
-#' (and perhaps other data)
-#' @param transfer_vars are variables to be included in the output
-#' @noRd
 check_args_score_lurn_si_10 <- function(
     input,
     transfer_vars) {
@@ -12,6 +7,12 @@ check_args_score_lurn_si_10 <- function(
   returned_vars <- c("lurn_si_10_score",
                      "lurn_si_10_count_valid",
                      "lurn_si_10_note")
+
+  if (ncol(input) < 10) {
+    stop("Your input has too few columns for the LURN SI-10.\n",
+         "Please re-check your input and try again.",
+         call. = FALSE)
+  }
 
   if (!all(si_10_names %in% names(input))) {
 

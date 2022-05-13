@@ -18,9 +18,7 @@ A character vector of recommended variable names for the LURN SI-10.
 }
 \description{
 This function returns a character vector of recommended
-variable names for the LURN SI-10. Case matters; all variable names
-in your dataset should be in UPPERCASE (sorry to shout) to use the
-functions in this R package.
+variable names for the LURN SI-10. Case matters.
 }
 \examples{
 \dontrun{

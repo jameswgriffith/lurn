@@ -2,9 +2,7 @@
 #' LURN SI-10
 #'
 #' @description This function returns a character vector of recommended
-#' variable names for the LURN SI-10. Case matters; all variable names
-#' in your dataset should be in UPPERCASE (sorry to shout) to use the
-#' functions in this R package.
+#' variable names for the LURN SI-10. Case matters.
 #'
 #' @param include_bother_item This is TRUE by default. For the SI-10,
 #' only the 10 symptom questions are scored, so setting this parameter to

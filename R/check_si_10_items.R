@@ -1,4 +1,3 @@
-# Check each SI-10 variable for out-of-range and/or non-numeric data --------
 check_si_10_items <- function(
     si_10_names = lurn_si_10_names(include_bother_item = FALSE),
     input,
@@ -53,7 +52,11 @@ check_si_10_items <- function(
 
   # Stop execution, if desired
   if (any_problems && warn_or_stop == "stop") {
-    stop("Please fix your input and try again.\n\n",
+    stop("You have set \"warn_or_stop\" to \"stop\"",
+         "Thus, because your input contains out-of-range or ",
+         "non-numeric data, execution of this function will ",
+         "now be halted.\n\n",
+         "Please carefully check and fix your input, and then try again.\n\n",
          call. = FALSE)
   }
 }
