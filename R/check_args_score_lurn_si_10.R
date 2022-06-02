@@ -8,6 +8,11 @@ check_args_score_lurn_si_10 <- function(
                      "lurn_si_10_count_valid",
                      "lurn_si_10_note")
 
+  if (!is.data.frame(input)) {
+    stop("Your input must be a dataframe. Please try again",
+         call. = FALSE)
+  }
+
   if (ncol(input) < 10) {
     stop("Your input has too few columns for the LURN SI-10.\n",
          "Please re-check your input and try again.",
@@ -26,13 +31,14 @@ check_args_score_lurn_si_10 <- function(
   if (!all(transfer_vars %in% names(input))) {
     stop(paste0("\n\nWe can only return the scoring results of the SI-10 and ",
                 "variables found in the input.\n",
-                "Please try again, choosing only variable names found in input."),
+                "Please try again, ",
+                "choosing only variable names found in input."),
          call. = FALSE)
   }
 
   if (any(returned_vars %in% names(input))) {
-    stop(paste0("Varible names resulting from SI-10 scoring are already ",
-                "found in the names of input.\n",
+    stop(paste0("Variable names resulting from LURN SI-10 scoring are ",
+                " already found in the names of input.\n",
                 "Please modify your input and try again."),
          call. = FALSE)
   }

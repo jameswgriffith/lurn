@@ -26,37 +26,59 @@ check_si_10_items <- function(
       problem_vars_num_out_of_rng <- append(problem_vars_num_out_of_rng,
                                             item_name)
     }
-
   }
 
-  # Print warnings and messages
-  if (length(problem_vars_num_out_of_rng) > 0) {
-    warning("The following variables contain some numeric ",
-            "but out-of-range values:\n",
+  if (length(problem_vars_num_out_of_rng) > 0 &&
+      length(problem_vars_non_num) > 0 &&
+      warn_or_stop == "stop") {
+    stop("Your input contains both non-numeric and out-of-range values.\n",
+         "The following variables contain ",
+         "out-of-range values:\n",
+         paste(problem_vars_num_out_of_rng, collapse = " "),
+         "\nThe following variables contain non-numeric data:\n",
+         paste(problem_vars_non_num, collapse = " "),
+         "\nPlease fix your input, check it carefully, and try again.",
+         call. = FALSE)
+  }
+
+  if (length(problem_vars_num_out_of_rng) > 0  &&
+      warn_or_stop == "stop") {
+    stop("Your input contains out-of-range values.\n",
+         "The following variables contain ",
+         "out-of-range values:\n",
+         paste(problem_vars_num_out_of_rng, collapse = " "),
+         "\nPlease fix your input, check it carefully, and try again.",
+         call. = FALSE)
+  }
+
+  if (length(problem_vars_non_num) > 0  &&
+      warn_or_stop == "stop") {
+    stop("Your input contains non-numeric values.\n",
+         "The following variables contain non-numeric data:\n",
+         paste(problem_vars_non_num, collapse = " "),
+         "\nPlease fix your input, check it carefully, and try again.",
+         call. = FALSE)
+  }
+
+  # Print warnings
+  if (length(problem_vars_num_out_of_rng) > 0 &&
+      warn_or_stop == "warn") {
+    warning("The following variables contain some ",
+            "out-of-range values:\n",
             paste(problem_vars_num_out_of_rng, collapse = " "),
-            "\n",
+            "\nIf this is not expected, ",
+            "please check your input and your results carefully.",
             call. = FALSE,
             immediate. = TRUE)
   }
 
-  if (length(problem_vars_non_num) > 0) {
+  if (length(problem_vars_non_num) > 0 &&
+      warn_or_stop == "warn") {
     warning("The following variables contain some non-numeric values:\n",
             paste(problem_vars_non_num, collapse = " "),
-            "\n",
+            "\nIf this is not expected, ",
+            "please check your input and your results carefully",
             call. = FALSE,
             immediate. = TRUE)
-  }
-
-  any_problems <- any(length(problem_vars_num_out_of_rng) > 0 ||
-                      length(problem_vars_non_num) > 0)
-
-  # Stop execution, if desired
-  if (any_problems && warn_or_stop == "stop") {
-    stop("You have set \"warn_or_stop\" to \"stop\"",
-         "Thus, because your input contains out-of-range or ",
-         "non-numeric data, execution of this function will ",
-         "now be halted.\n\n",
-         "Please carefully check and fix your input, and then try again.\n\n",
-         call. = FALSE)
   }
 }

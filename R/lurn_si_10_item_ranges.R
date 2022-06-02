@@ -1,6 +1,6 @@
 # Returns a list of item ranges for the LURN SI-10
-lurn_si_10_item_ranges <-function(item_names = NULL,
-                                  include_na = FALSE) {
+lurn_si_10_item_ranges <- function(item_names = NULL,
+                                   include_na = FALSE) {
   item_ranges <- list(
     SI10_Q1 = c(`Never` = 0,
                 `A few times` = 1,
@@ -55,17 +55,17 @@ lurn_si_10_item_ranges <-function(item_names = NULL,
                  `Very bothered` = 2,
                  `Extremely bothered` = 3))
 
-  if(!is.null(item_names) && length(item_names) != length(item_ranges)) {
+  if (!is.null(item_names) && length(item_names) != length(item_ranges)) {
     stop(c("The length of item_names must match the number of item ",
     "ranges to be returned.\n",
     "Please try again."))
   }
 
-  if(!is.null(item_names)) {
+  if (!is.null(item_names)) {
     names(item_ranges) <- item_names
   }
 
-  if(include_na) {
+  if (include_na) {
     item_ranges <- lapply(item_ranges,
                           append,
                           values = NA)

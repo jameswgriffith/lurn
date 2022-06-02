@@ -7,7 +7,7 @@
 score_lurn_si_29(
   input,
   transfer_vars = names(input),
-  warn_or_stop = c("warn", "stop")
+  warn_or_stop = c("stop", "warn")
 )
 }
 \arguments{
@@ -18,11 +18,15 @@ be present and will be returned by the function (if desired).}
 These variables will be returned in the output along with
 the LURN SI-29 scores.}
 
-\item{warn_or_stop}{If set to "warn" (the default),
-warnings will notify the user that
-non-numeric or out-of-range data are present. If set to "stop", the
-warnings will be printed, but execution will stop. In this case, the user
-will need to fix the input data in order to proceed.}
+\item{warn_or_stop}{This is set to "stop" by default, which means that any
+problems in the input will cause execution of the function to stop
+(i.e., you will receive an error).
+Problems in the input include any out-of-range or non-numeric data in the input.
+If you receive an error message, you
+will need to fix your input in order to proceed.
+If warn_or_stop is set to "warn", then warnings will notify you that
+non-numeric or out-of-range data are present, which are then recoded
+to NA with a warning message.}
 }
 \value{
 A dataframe of output containing SI-29 scores, and any variables
@@ -31,26 +35,37 @@ requested in transfer_vars.
 \description{
 This function returns takes a dataframe, extracts the
 LURN SI-29 items, calculates the subscale scores, and returns them
-along with any other variables from "input" requested by the user.
+along with any other variables from "input" that you request.
 }
 \details{
-If only a subset of variables are desired, the column names can be
-specified in transfer_vars. It should be noted that out-of-range
-values in the items are recoded to NA. Moreover, any character data
+If only a subset of variables are desired to be returned,
+the column names can be specified using  the transfer_vars argument.
+Any out-of-range or non-numeric data in the input will cause an error,
+unless you set warn_or_stop to "warn".
+If warn_or_stop is set to "warn", then out-of-range or non-numeric
+values will be recoded to NA. Moreover, any character data
 will be coerced to numeric as part of the scoring.
 }
-\section{Setting up Gender in your input}{
-
-Your input needs to contain a variable "Gender" with numeric
-values of "1" for female and "2" for male.
-}
-
 \section{Setting up your input}{
  Variable names for the LURN SI-29
 You must use the recommended variables names for the LURN SI-29, which
 have the form SI29_Q1, SI29_Q2, etc. For item #27, there is SI29_Q27a
 and SI29_Q27b. You can use \code{lurn_si_29_names()} to obtain a list of the
 recommended variable names.
+}
+
+\section{Item response coding}{
+ Responses should be represented in the data
+starting at 0 (e.g., Item 1 should be 0, 1, 2, 3, ...
+and so on for all items.) This must be respected in order for this R package
+to score the data properly. Check the official version of the questionnaires
+at \url{https://nih-lurn.org/Resources/Questionnaires}.
+}
+
+\section{Setting up Gender in your input}{
+
+Your input needs to contain a variable "Gender" with numeric
+values of "1" for female and "2" for male.
 }
 
 \examples{

@@ -5,18 +5,13 @@ score_lurn_si_29_subscale <- function(items,
   missing_50_percent <- length(max_possible_responses) / 2
 
   # Check for errors in the input
-  if(length(items) != n_items) {
+  if (length(items) != n_items) {
     stop("There should be ",
          n_items,
          " items in the subscale.",
          "\nPlease check your input and try again.")
   }
   # Done checking errors
-
-  # Convert vector to one-row dataframe, if needed
-  if(is.vector(items)) {
-    items <- as.data.frame(t(items))
-  }
 
   count_na_items <- count_na(items)
 

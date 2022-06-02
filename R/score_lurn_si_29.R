@@ -2,20 +2,19 @@
 #'
 #' @description This function returns takes a dataframe, extracts the
 #' LURN SI-29 items, calculates the subscale scores, and returns them
-#' along with any other variables from "input" requested by the user.
+#' along with any other variables from "input" that you request.
 #'
 #' @details
-#' If only a subset of variables are desired, the column names can be
-#' specified in transfer_vars. It should be noted that out-of-range
-#' values in the items are recoded to NA. Moreover, any character data
+#' If only a subset of variables are desired to be returned,
+#' the column names can be specified using  the transfer_vars argument.
+#' Any out-of-range or non-numeric data in the input will cause an error,
+#' unless you set warn_or_stop to "warn".
+#' If warn_or_stop is set to "warn", then out-of-range or non-numeric
+#' values will be recoded to NA. Moreover, any character data
 #' will be coerced to numeric as part of the scoring.
 #'
 #' @param input A dataframe containing LURN SI-29 items. Other columns may also
 #' be present and will be returned by the function (if desired).
-#'
-#' @section Setting up Gender in your input:
-#' Your input needs to contain a variable "Gender" with numeric
-#' values of "1" for female and "2" for male.
 #'
 #' @section Setting up your input: Variable names for the LURN SI-29
 #' You must use the recommended variables names for the LURN SI-29, which
@@ -23,15 +22,30 @@
 #' and SI29_Q27b. You can use \code{lurn_si_29_names()} to obtain a list of the
 #' recommended variable names.
 #'
+#' @section Item response coding: Responses should be represented in the data
+#' starting at 0 (e.g., Item 1 should be 0, 1, 2, 3, ...
+#' and so on for all items.) This must be respected in order for this R package
+#' to score the data properly. Check the official version of the questionnaires
+#' at \url{https://nih-lurn.org/Resources/Questionnaires}.
+#'
+#' @section Setting up Gender in your input:
+#' Your input needs to contain a variable "Gender" with numeric
+#' values of "1" for female and "2" for male.
+#'
 #' @param transfer_vars A vector of variable names to be found in input.
 #' These variables will be returned in the output along with
 #' the LURN SI-29 scores.
 #'
-#' @param warn_or_stop If set to "warn" (the default),
-#' warnings will notify the user that
-#' non-numeric or out-of-range data are present. If set to "stop", the
-#' warnings will be printed, but execution will stop. In this case, the user
-#' will need to fix the input data in order to proceed.
+#' @param warn_or_stop This is set to "stop" by default, which means that any
+#' problems in the input will cause execution of the function to stop
+#' (i.e., you will receive an error).
+#' Problems in the input include any out-of-range or non-numeric data
+#' in the input.
+#' If you receive an error message, you
+#' will need to fix your input in order to proceed.
+#' If warn_or_stop is set to "warn", then warnings will notify you that
+#' non-numeric or out-of-range data are present, which are then recoded
+#' to NA with a warning message.
 #'
 #' @return A dataframe of output containing SI-29 scores, and any variables
 #' requested in transfer_vars.
@@ -45,7 +59,7 @@
 #' }
 score_lurn_si_29 <- function(input,
                              transfer_vars = names(input),
-                             warn_or_stop = c("warn", "stop")) {
+                             warn_or_stop = c("stop", "warn")) {
 
   warn_or_stop <- match.arg(warn_or_stop)
 
@@ -84,7 +98,7 @@ score_lurn_si_29 <- function(input,
 
   lurn_si_29_item_ranges <- lurn_si_29_item_ranges(include_na = FALSE)
 
-  for(i in seq_along(colnames(si_29_items))) {
+  for (i in seq_along(colnames(si_29_items))) {
     item <- si_29_items[[i]]
     item[!item %in% lurn_si_29_item_ranges[[i]]] <- NA
     si_29_items[[i]] <- item
@@ -112,10 +126,6 @@ score_lurn_si_29 <- function(input,
   nocturia_max_items <- c(3, 4)
 
   # Score five subscales
-  # Programming note - These could be made conditional on whether they are
-  # present in returned_vars above, but let's assume this function is only
-  # for returning all of the SI-29 subscales along with the total score
-
   lurn_si_29_incontinence_score <- score_lurn_si_29_subscale(incontinence_items,
                                                   incontinence_max_items)
   lurn_si_29_pain_score <- score_lurn_si_29_subscale(pain_items,
@@ -142,10 +152,10 @@ score_lurn_si_29 <- function(input,
   # Recode to NA if gender (or "Gender" in the input) is not 1 or 2
   gender[!gender %in% gender_levels] <- NA
 
-  for(i in seq_len(nrow(si_29_items))){
-    if(gender[i] == gender_levels[1]) {
+  for (i in seq_len(nrow(si_29_items))) {
+    if (gender[i] == gender_levels[1]) {
       SI29_Q27[i] <- lurn_si_27a_women[i]
-    } else if(gender[i] == gender_levels[2]) {
+    } else if (gender[i] == gender_levels[2]) {
       SI29_Q27[i] <- lurn_si_27b_men[i]
     } else {
       SI29_Q27[i] <- NA
@@ -174,7 +184,8 @@ score_lurn_si_29 <- function(input,
            lurn_si_29_voiding_count_valid < 3 |
            lurn_si_29_urgency_count_valid < 2 |
            lurn_si_29_nocturia_count_valid < 2,
-           "Missing total or subscale scores due to half or more items missing among all questions or among questions in that subscale",
+           paste("Missing total or subscale scores due to half or more items",
+           "missing among all questions or among questions in that subscale"),
            NA)
 
   lurn_si_29_bother <- unname(si_29_items[[si_29_names[29]]])
@@ -211,8 +222,7 @@ score_lurn_si_29 <- function(input,
       "lurn_si_29_urgency_count_valid",
       "lurn_si_29_nocturia_count_valid")
 
-  output <- cbind(
+  cbind(
     input[transfer_vars],
     lurn_si_29_all_output[returned_vars])
-
 }

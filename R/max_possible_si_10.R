@@ -1,7 +1,7 @@
 max_possible_si_10 <- function(si_10_items) {
 
   # Check for errors in the input
-  if(!is.vector(si_10_items)) {
+  if (!is.vector(si_10_items)) {
     stop("si_10_items must be a vector. Please try again")
   }
 

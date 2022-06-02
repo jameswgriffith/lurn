@@ -7,43 +7,60 @@
 score_lurn_si_10(
   input,
   transfer_vars = names(input),
-  warn_or_stop = c("warn", "stop")
+  warn_or_stop = c("stop", "warn")
 )
 }
 \arguments{
 \item{input}{A dataframe containing LURN SI-10 items. Other columns may also
 be present and will be returned by the function (if desired). The items of
 the SI-10 must use the recommended names: SI10_Q1 - SI10_Q10. The input
-cannot contain variable names to be returned: lurn_si_10_score,
-lurn_si_10_count_valid, or lurn_si_10_note.}
+cannot contain any variable names that need to be returned as part of the
+scoring: lurn_si_10_score, lurn_si_10_count_valid, or lurn_si_10_note. Any
+character data will be coerced to numeric (e.g., "1" will be coerced to 1).}
 
 \item{transfer_vars}{A vector of variable names to be found in input.
-These variables will be returned in the output along with SI-10 scores}
+These variables will be returned in the output along with the
+LURN SI-10 scores.}
 
-\item{warn_or_stop}{If set to "warn", warnings will notify the user that
-non-numeric or out-of-range data are present. If set to "stop", the
-warnings will be printed, but execution will stop. In this case, the user
-will need to fix the input data in order to proceed. The default is "warn",
-but set to "stop" if you wish to prevent the function from executing when
-the input contains any out-of-range or non-numeric data.}
+\item{warn_or_stop}{This is set to "stop" by default, which means that any
+problems in the input will cause execution of the function to stop
+(i.e., you will receive an error).
+Problems in the input include any out-of-range or non-numeric data in the input.
+If you receive an error message, you
+will need to fix your input in order to proceed.
+If warn_or_stop is set to "warn", then warnings will notify you that
+non-numeric or out-of-range data are present, which are then recoded
+to NA with a warning message.}
 }
 \value{
-A dataframe of output containing SI-10 scores,
+A dataframe of output containing LURN SI-10 scores,
 a count of valid items, and a scoring note. Any variables
 requested in transfer_vars will also be returned.
 }
 \description{
-This function returns takes a dataframe, extracts the SI-10
-items, calculates the SI-10 score, and returns the score along with any
-other variables from input requested by the user
+This function returns takes a dataframe, extracts the
+LURN SI-10 items, calculates the LURN SI-10 score, and returns the
+score along with any other requested variables from the input.
 }
 \details{
 If only a subset of variables are desired to be returned,
 the column names can be specified in transfer_vars.
-It should be noted that out-of-range
-values in the items are recoded to NA. Moreover, any character data
-will be coerced to numeric or NA as part of the scoring.
+It should be noted that if any out-of-range or non-numeric
+(e.g., character) values are detected, then execution of the
+function will stop by default. You can set warn_or_stop to "warn"
+(see below), in which case any out-of-range values or non-numeric
+values are recoded to NA, and a warning will be displayed. We recommend
+that you pre-process your data so that all values are in-range so that
+execution can proceed normally and no warnings are needed.
 }
+\section{Item response coding}{
+ Items 1-10 must be coded with 0-4 for
+Items 1-8 and 0-3 for Items 9 and 10.
+This coding must be respected in order for the algorithm to work properly.
+You can check the numbering on the official versions on the questionnaires
+found at \url{https://nih-lurn.org/Resources/Questionnaires}.
+}
+
 \examples{
 \dontrun{
 score_lurn_si_10(input = lurn_data)
