@@ -32,9 +32,9 @@ check_si_29_items <- function(si_29_items,
          "The following variables contain ",
          "out-of-range values:\n",
          paste(problem_vars_out_of_rng, collapse = " "),
-         "\nThe following variables contain non-numeric data:\n",
+         "\nThe following variables contain non-numeric data:\n\n",
          paste(problem_vars_non_num, collapse = " "),
-         "\nPlease fix your input, check it carefully, and try again.",
+         "\n\nPlease fix your input, check it carefully, and try again.",
          call. = FALSE)
   }
 
@@ -42,18 +42,18 @@ check_si_29_items <- function(si_29_items,
       warn_or_stop == "stop") {
     stop("Your input contains out-of-range values.\n",
          "The following variables contain ",
-         "out-of-range values:\n",
+         "out-of-range values:\n\n",
          paste(problem_vars_out_of_rng, collapse = " "),
-         "\nPlease fix your input, check it carefully, and try again.",
+         "\n\nPlease fix your input, check it carefully, and try again.",
          call. = FALSE)
   }
 
   if (length(problem_vars_non_num) > 0  &&
       warn_or_stop == "stop") {
     stop("Your input contains non-numeric values.\n",
-         "The following variables contain non-numeric data:\n",
+         "The following variables contain non-numeric data:\n\n",
          paste(problem_vars_non_num, collapse = " "),
-         "\nPlease fix your input, check it carefully, and try again.",
+         "\n\nPlease fix your input, check it carefully, and try again.",
          call. = FALSE)
   }
 
@@ -61,9 +61,9 @@ check_si_29_items <- function(si_29_items,
   if (length(problem_vars_out_of_rng) > 0 &&
       warn_or_stop == "warn") {
     warning("The following variables contain some ",
-            "out-of-range values:\n",
+            "out-of-range values:\n\n",
             paste(problem_vars_out_of_rng, collapse = " "),
-            "\nIf this is not expected, ",
+            "\n\nIf this is not expected, ",
             "please check your input and your results carefully.",
             call. = FALSE,
             immediate. = TRUE)
@@ -71,9 +71,9 @@ check_si_29_items <- function(si_29_items,
 
   if (length(problem_vars_non_num) > 0 &&
       warn_or_stop == "warn") {
-    warning("The following variables contain some non-numeric values:\n",
+    warning("The following variables contain some non-numeric values:\n\n",
             paste(problem_vars_non_num, collapse = " "),
-            "\nIf this is not expected, ",
+            "\n\nIf this is not expected, ",
             "please check your input and your results carefully",
             call. = FALSE,
             immediate. = TRUE)
