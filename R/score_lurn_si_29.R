@@ -99,9 +99,13 @@ score_lurn_si_29 <- function(input,
   lurn_si_29_item_ranges <- lurn_si_29_item_ranges(include_na = FALSE)
 
   for (i in seq_along(colnames(si_29_items))) {
+
     item <- si_29_items[[i]]
+
     item[!item %in% lurn_si_29_item_ranges[[i]]] <- NA
+
     si_29_items[[i]] <- item
+
   }
 
   # Organise variables by subscale

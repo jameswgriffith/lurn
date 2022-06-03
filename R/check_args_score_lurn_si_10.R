@@ -14,22 +14,29 @@ check_args_score_lurn_si_10 <- function(
   }
 
   if (ncol(input) < 10) {
-    stop("Your input has too few columns for the LURN SI-10.\n",
+    stop("\nYour input has too few columns to score the LURN SI-10.\n",
          "Please re-check your input and try again.",
          call. = FALSE)
   }
 
   if (!all(si_10_names %in% names(input))) {
 
-    stop(c("\n\nThe names of the LURN SI-10 were not found in the input.\n",
-           "The ten scored items of the LURN SI-10 should be labelled\n\n",
-           paste(lurn_si_10_names(include_bother_item = FALSE), collapse = " "),
-           "\n\nPlease try again."),
+    si_10_names_not_found <-
+      si_10_names[which(!si_10_names %in% names(input))]
+
+    stop("\nNot all of the names of the LURN SI-10 items were ",
+         "found in the input.\n\n",
+         "The ten scored items of the LURN SI-10 should be labelled:\n",
+         paste(lurn_si_10_names(include_bother_item = FALSE), collapse = " "),
+         "\n\nThe following LURN SI-10 names were not found in the input:\n",
+         paste(si_10_names_not_found, collapse = " "),
+         "\n\nPlease try again.",
          call. = FALSE)
   }
 
   if (!all(transfer_vars %in% names(input))) {
-    stop(paste0("\n\nWe can only return the scoring results of the SI-10 and ",
+    stop(paste0("\n\nWe can only return the scoring results of ",
+                "the LURN SI-10 and ",
                 "variables found in the input.\n",
                 "Please try again, ",
                 "choosing only variable names found in input."),

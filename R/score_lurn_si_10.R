@@ -82,15 +82,16 @@ score_lurn_si_10 <- function(input,
 
   item_ranges <- lurn_si_10_item_ranges()
 
-  # Convert vector to one-row dataframe
-  if (is.vector(si_10_recoded)) {
-    si_10_recoded <- as.data.frame(t(si_10_recoded))
-  }
+  si_10_recoded <- as.data.frame(si_10_recoded)
 
   # Convert out-of-range values to NA
   for (i in seq_len(ncol(si_10_recoded))) {
-    j <- which(!si_10_recoded[[i]] %in% item_ranges[[i]])
-    si_10_recoded[[i]][j] <- NA
+
+    item <- si_10_recoded[[i]]
+
+    item[!item %in% item_ranges[[i]]] <- NA
+
+    si_10_recoded[[i]] <- item
   }
 
   count_valid <- count_not_na(si_10_recoded)

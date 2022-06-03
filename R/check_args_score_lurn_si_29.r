@@ -13,7 +13,7 @@ check_args_score_lurn_si_29 <- function(input,
   if (!gender_vname %in% names(input)) {
     stop("The variable ", gender_vname, " is not found among ",
          "the variable names of the input.\n",
-         "Note: case matters",
+         "Note: Case matters",
          "Please check your input and try again.",
          call. = FALSE)
   }
@@ -53,9 +53,16 @@ check_args_score_lurn_si_29 <- function(input,
 
   # Are all of the items in the LURN SI-29 found in the input
   if (!all(lurn_si_29_names %in% names(input))) {
-    stop("\n\nThe names in si_29_names must be found in the input.\n",
-         "Please name the 29 scored items of the LURN SI-29 as follows:\n\n",
-         lurn_si_29_names,
+
+    si_29_names_not_found <-
+      lurn_si_29_names[which(!lurn_si_29_names %in% names(input))]
+
+    stop("\nNot all of the names for the LURN SI-29 items ",
+         "were found in the input.\n\n",
+         "Please name the 29 scored items of the LURN SI-29 as follows:\n",
+         paste(lurn_si_29_names, collapse = " "),
+         "\n\nThe following LURN SI-29 items were not found in the input:\n",
+         paste(si_29_names_not_found, collapse = " "),
          "\n\nPlease try again.\n",
          call. = FALSE)
   }

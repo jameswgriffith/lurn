@@ -25,7 +25,8 @@ LURN SI-10 scores.}
 \item{warn_or_stop}{This is set to "stop" by default, which means that any
 problems in the input will cause execution of the function to stop
 (i.e., you will receive an error).
-Problems in the input include any out-of-range or non-numeric data in the input.
+Problems in the input include any out-of-range or non-numeric data
+in the input.
 If you receive an error message, you
 will need to fix your input in order to proceed.
 If warn_or_stop is set to "warn", then warnings will notify you that
