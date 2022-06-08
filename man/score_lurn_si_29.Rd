@@ -48,10 +48,11 @@ values will be recoded to NA. Moreover, any character data
 will be coerced to numeric as part of the scoring.
 }
 \section{Setting up your input}{
- Variable names for the LURN SI-29
+
 You must use the recommended variables names for the LURN SI-29, which
 have the form SI29_Q1, SI29_Q2, etc. For item #27, there is SI29_Q27a
-and SI29_Q27b. You can use \code{lurn_si_29_names()} to obtain a list of the
+for women, and SI29_Q27b for men.
+You can use \code{lurn_si_29_names()} to obtain a list of the
 recommended variable names.
 }
 
@@ -61,6 +62,9 @@ starting at 0 (e.g., Item 1 should be 0, 1, 2, 3, ...
 and so on for all items.) This must be respected in order for this R package
 to score the data properly. Check the official version of the questionnaires
 at \url{https://nih-lurn.org/Resources/Questionnaires}.
+A check on your input will be conducted when you score your data.
+If your data appear to be mis-coded,
+you will receive a friendly message encouraging you to check your input.
 }
 
 \section{Setting up Gender in your input}{
@@ -75,4 +79,8 @@ score_lurn_si_29(some_si_29_data)
 
 score_lurn_si_29(input = lurn_si_29_data)
 }
+}
+\seealso{
+For a list of recommended variable names for the LURN SI-29,
+you can use this helper function: \code{lurn_si_29_names()}
 }

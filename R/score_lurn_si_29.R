@@ -16,10 +16,11 @@
 #' @param input A dataframe containing LURN SI-29 items. Other columns may also
 #' be present and will be returned by the function (if desired).
 #'
-#' @section Setting up your input: Variable names for the LURN SI-29
+#' @section Setting up your input:
 #' You must use the recommended variables names for the LURN SI-29, which
 #' have the form SI29_Q1, SI29_Q2, etc. For item #27, there is SI29_Q27a
-#' and SI29_Q27b. You can use \code{lurn_si_29_names()} to obtain a list of the
+#' for women, and SI29_Q27b for men.
+#' You can use \code{lurn_si_29_names()} to obtain a list of the
 #' recommended variable names.
 #'
 #' @section Item response coding: Responses should be represented in the data
@@ -27,6 +28,9 @@
 #' and so on for all items.) This must be respected in order for this R package
 #' to score the data properly. Check the official version of the questionnaires
 #' at \url{https://nih-lurn.org/Resources/Questionnaires}.
+#' A check on your input will be conducted when you score your data.
+#' If your data appear to be mis-coded,
+#' you will receive a friendly message encouraging you to check your input.
 #'
 #' @section Setting up Gender in your input:
 #' Your input needs to contain a variable "Gender" with numeric
@@ -49,6 +53,10 @@
 #'
 #' @return A dataframe of output containing SI-29 scores, and any variables
 #' requested in transfer_vars.
+#'
+#' @seealso For a list of recommended variable names for the LURN SI-29,
+#' you can use this helper function: \code{lurn_si_29_names()}
+#'
 #' @export
 #'
 #' @examples

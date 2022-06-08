@@ -6,7 +6,7 @@
 ## usethis namespace: start
 ## usethis namespace: end
 #'
-#' lurn: A package for scoring the LURN SI-19 and LURN SI-29 questionnaires.
+#' lurn: A package for scoring the LURN SI-10 and LURN SI-29 questionnaires.
 #'
 #' @section For more information:
 #' \url{https://nih-lurn.org/Resources/Questionnaires}

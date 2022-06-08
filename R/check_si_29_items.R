@@ -1,6 +1,10 @@
 check_si_29_items <- function(si_29_items,
                              warn_or_stop) {
 
+  check_items_for_miscoding(
+    si_29_items,
+    which_items = "3. LURN SI-29")
+
   # Initialise empty vector for variable names with problems
   problem_vars_non_num <- vector(mode = "character")
   problem_vars_out_of_rng <- vector(mode = "character")

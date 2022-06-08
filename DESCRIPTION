@@ -1,12 +1,13 @@
 Package: lurn
 Type: Package
-Title: Tools for LURN/LURN-II Research: Scoring the LURN SI-10 and LURN SI-29
-Version: 0.2.0
-Date: 2022-05-13
+Title: Tools for LURN Research: Scoring the LURN SI-10 and LURN SI-29
+Version: 0.2.1
+Date: 2022-06-07
 Author: James W Griffith
 Maintainer: James W Griffith <j-griffith@northwestern.edu>
 Description: This package is primarily use for scoring of the LURN SI-10 and 
-    LURN SI-29. Additional tools related to LURN research may be added in the future.
+    LURN SI-29. Additional tools related to LURN research may be added in 
+    the future.
 URL: https://nih-lurn.org/
 License: GPL-3
 Encoding: UTF-8

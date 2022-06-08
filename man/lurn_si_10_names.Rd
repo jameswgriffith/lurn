@@ -20,6 +20,12 @@ A character vector of recommended variable names for the LURN SI-10.
 This function returns a character vector of recommended
 variable names for the LURN SI-10. Case matters.
 }
+\section{For more information}{
+ You can check the LURN SI-10 questionnaire
+by downloading the pdf at
+\url{https://nih-lurn.org/Resources/Questionnaires}.
+}
+
 \examples{
 \dontrun{
 lurn_si_10_names()

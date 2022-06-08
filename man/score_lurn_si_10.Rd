@@ -59,7 +59,10 @@ execution can proceed normally and no warnings are needed.
 Items 1-8 and 0-3 for Items 9 and 10.
 This coding must be respected in order for the algorithm to work properly.
 You can check the numbering on the official versions on the questionnaires
-found at \url{https://nih-lurn.org/Resources/Questionnaires}.
+found at \url{https://nih-lurn.org/Resources/Questionnaires}. A check on
+your input will be conducted when you score your data. If your data appear
+to be mis-coded, you will receive a friendly message encouraging you to
+carefully check your input.
 }
 
 \examples{
@@ -68,5 +71,6 @@ score_lurn_si_10(input = lurn_data)
 }
 }
 \seealso{
-lurn_si_10_names()
+For a list of recommended variable names for the LURN SI-10,
+you can use this helper function: \code{lurn_si_10_names()}
 }

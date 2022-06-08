@@ -3,11 +3,15 @@ check_si_10_items <- function(
     input,
     warn_or_stop) {
 
+  check_items_for_miscoding(
+    input[si_10_names],
+    which_items = "1. LURN SI-10 (not including bother)")
+
   # Initialise empty vector for variable names with problems
   problem_vars_non_num <- vector(mode = "character")
   problem_vars_num_out_of_rng <- vector(mode = "character")
 
-  item_ranges <- lurn_si_10_item_ranges(include_na = FALSE)
+  item_ranges <- lurn_si_10_item_ranges(include_bother_item = FALSE)
 
   for (i in seq_along(si_10_names)) {
 

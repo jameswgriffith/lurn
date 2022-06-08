@@ -4,6 +4,10 @@
 #' @description This function returns a character vector of recommended
 #' variable names for the LURN SI-10. Case matters.
 #'
+#' @section For more information: You can check the LURN SI-10 questionnaire
+#' by downloading the pdf at
+#' \url{https://nih-lurn.org/Resources/Questionnaires}.
+#'
 #' @param include_bother_item This is TRUE by default. For the SI-10,
 #' only the 10 symptom questions are scored, so setting this parameter to
 #' FALSE will return only the first 10 item names for symptoms,

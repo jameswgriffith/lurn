@@ -26,7 +26,10 @@
 #' Items 1-8 and 0-3 for Items 9 and 10.
 #' This coding must be respected in order for the algorithm to work properly.
 #' You can check the numbering on the official versions on the questionnaires
-#' found at \url{https://nih-lurn.org/Resources/Questionnaires}.
+#' found at \url{https://nih-lurn.org/Resources/Questionnaires}. A check on
+#' your input will be conducted when you score your data. If your data appear
+#' to be mis-coded, you will receive a friendly message encouraging you to
+#' carefully check your input.
 
 #' @param transfer_vars A vector of variable names to be found in input.
 #' These variables will be returned in the output along with the
@@ -43,7 +46,8 @@
 #' non-numeric or out-of-range data are present, which are then recoded
 #' to NA with a warning message.
 #'
-#' @seealso lurn_si_10_names()
+#' @seealso For a list of recommended variable names for the LURN SI-10,
+#' you can use this helper function: \code{lurn_si_10_names()}
 #'
 #' @return A dataframe of output containing LURN SI-10 scores,
 #' a count of valid items, and a scoring note. Any variables
@@ -80,7 +84,7 @@ score_lurn_si_10 <- function(input,
   si_10_recoded <- suppressWarnings(
     vapply(si_10, as.numeric, numeric(n)))
 
-  item_ranges <- lurn_si_10_item_ranges()
+  item_ranges <- lurn_si_10_item_ranges(include_bother_item = FALSE)
 
   si_10_recoded <- as.data.frame(si_10_recoded)
 

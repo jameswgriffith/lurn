@@ -1,6 +1,7 @@
 # Returns a list of item ranges for the LURN SI-10
 lurn_si_10_item_ranges <- function(item_names = NULL,
-                                   include_na = FALSE) {
+                                   include_na = FALSE,
+                                   include_bother_item = TRUE) {
   item_ranges <- list(
     SI10_Q1 = c(`Never` = 0,
                 `A few times` = 1,
@@ -69,7 +70,11 @@ lurn_si_10_item_ranges <- function(item_names = NULL,
     item_ranges <- lapply(item_ranges,
                           append,
                           values = NA)
-  } else {
+  }
+
+  if (include_bother_item) {
     item_ranges
-    }
+  } else {
+    item_ranges[1:10]
+  }
 }

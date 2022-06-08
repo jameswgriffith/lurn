@@ -9,7 +9,8 @@
 #' @param include By default, `all` variable names of the LURN SI-29 are
 #' returned. If desired, the user can request only variable names specific
 #' to `female` respondents or `male` respondents. If needed, the argument
-#' names will be converted to lowercase.
+#' names will be converted to lowercase (i.e., `ALL`, `All`, etc.,
+#' will be silently converted to `all`).
 #'
 #' @return A character vector of recommended variable names for the LURN SI-29.
 #' @export
