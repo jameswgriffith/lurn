@@ -3,7 +3,7 @@
 \docType{data}
 \name{lurn_si_10_test_data}
 \alias{lurn_si_10_test_data}
-\title{Synthetic LURN SI-10 data for testing, based on format from LURN I}
+\title{Synthetic LURN SI-10 data for testing, based on the format from LURN I}
 \format{
 A dataframe with 13 variables and 7 observations
 }
@@ -11,7 +11,7 @@ A dataframe with 13 variables and 7 observations
 lurn_si_10_test_data
 }
 \description{
-Synthetic LURN SI-10 data for testing, based on format from LURN I
+Synthetic LURN SI-10 data for testing, based on the format from LURN I
 }
 \details{
 For more information about research in LURN, please visit the

@@ -1,4 +1,4 @@
-#' Returns a score for the SI-10 based on a dataframe of input
+#' Returns a score for the LURN SI-10 based on a dataframe of input
 #'
 #' @description This function returns takes a dataframe, extracts the
 #' LURN SI-10 items, calculates the LURN SI-10 score, and returns the

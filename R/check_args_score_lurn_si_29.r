@@ -73,4 +73,7 @@ check_args_score_lurn_si_29 <- function(input,
          "names found in the input.",
          call. = FALSE)
   }
+
+  invisible(NULL)
+
 }

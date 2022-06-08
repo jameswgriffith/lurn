@@ -49,4 +49,7 @@ check_args_score_lurn_si_10 <- function(
                 "Please modify your input and try again."),
          call. = FALSE)
   }
+
+  invisible(NULL)
+
 }

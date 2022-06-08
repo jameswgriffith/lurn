@@ -2,7 +2,7 @@
 % Please edit documentation in R/score_lurn_si_10.R
 \name{score_lurn_si_10}
 \alias{score_lurn_si_10}
-\title{Returns a score for the SI-10 based on a dataframe of input}
+\title{Returns a score for the LURN SI-10 based on a dataframe of input}
 \usage{
 score_lurn_si_10(
   input,

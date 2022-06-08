@@ -82,4 +82,7 @@ check_si_29_items <- function(si_29_items,
             call. = FALSE,
             immediate. = TRUE)
   }
+
+  invisible(NULL)
+
 }
