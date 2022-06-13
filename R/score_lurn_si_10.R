@@ -2,7 +2,11 @@
 #'
 #' @description This function returns takes a dataframe, extracts the
 #' LURN SI-10 items, calculates the LURN SI-10 score, and returns the
-#' score along with any other requested variables from the input.
+#' score along with any other requested variables from the input. If
+#' you request all of the LURN SI-10 items in the output
+#' (true using  default settings), then the output will be given an
+#' additional class of "LURN_SI_10", enabling additional S3 methods
+#' (e.g., plot).
 #'
 #' @details
 #' If only a subset of variables are desired to be returned,
@@ -11,9 +15,9 @@
 #' (e.g., character) values are detected, then execution of the
 #' function will stop by default. You can set warn_or_stop to "warn"
 #' (see below), in which case any out-of-range values or non-numeric
-#' values are recoded to NA, and a warning will be displayed. We recommend
-#' that you pre-process your data so that all values are in-range so that
-#' execution can proceed normally and no warnings are needed.
+#' values are recoded to NA, and a warning will be displayed. We strongly
+#' recommend that you pre-process your data so that all values are in-range
+#' so that execution can proceed normally and no warnings are needed.
 #'
 #' @param input A dataframe containing LURN SI-10 items. Other columns may also
 #' be present and will be returned by the function (if desired). The items of
@@ -21,9 +25,11 @@
 #' cannot contain any variable names that need to be returned as part of the
 #' scoring: lurn_si_10_score, lurn_si_10_count_valid, or lurn_si_10_note. Any
 #' character data will be coerced to numeric (e.g., "1" will be coerced to 1).
+#' Although it is not scored, the bother items should be named SI10_BOTHER and
+#' coded 0, 1, 2, 3.
 #'
 #' @section Item response coding: Items 1-10 must be coded with 0-4 for
-#' Items 1-8 and 0-3 for Items 9 and 10.
+#' Items 1-8 and 0-3 for Items 9 and 10 and the bother question.
 #' This coding must be respected in order for the algorithm to work properly.
 #' You can check the numbering on the official versions on the questionnaires
 #' found at \url{https://nih-lurn.org/Resources/Questionnaires}. A check on
@@ -51,13 +57,16 @@
 #'
 #' @return A dataframe of output containing LURN SI-10 scores,
 #' a count of valid items, and a scoring note. Any variables
-#' requested in transfer_vars will also be returned.
+#' requested in transfer_vars will also be returned. If all of the LURN SI-10
+#' items are returned with the output, then the output will be given an
+#' additional class of "LURN_SI_10" for additional methods
+#' (e.g., plot.LURN_SI_10).
 #'
 #' @export
 #'
 #' @examples
 #' \dontrun{
-#' score_lurn_si_10(input = lurn_data)
+#' score_lurn_si_10(input = lurn_si_10_test_data)
 #' }
 score_lurn_si_10 <- function(input,
                              transfer_vars = names(input),
@@ -119,6 +128,7 @@ score_lurn_si_10 <- function(input,
   for (i in seq_len(nrow(input))) {
     if(count_valid[i] > 5) {
       lurn_si_10_score[i] <- si_10_item_sum[i] / max_possible[i] * 38
+      lurn_si_10_note[i] <- NA_character_
     } else {
       lurn_si_10_score[i] <- NA
       lurn_si_10_note[i] <-
@@ -133,8 +143,15 @@ score_lurn_si_10 <- function(input,
     lurn_si_10_count_valid = count_valid,
     lurn_si_10_note)
 
-  # Return output
-  cbind(
+  # Prepare output
+  output <- cbind(
     input[transfer_vars],
     lurn_si_10_output)
+
+  # Return output
+  if (all(lurn_si_10_names(include_bother_item = TRUE) %in% names(output))) {
+    add_LURN_SI_10_class(output)
+  } else {
+    output
+  }
 }

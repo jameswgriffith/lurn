@@ -16,7 +16,9 @@ be present and will be returned by the function (if desired). The items of
 the SI-10 must use the recommended names: SI10_Q1 - SI10_Q10. The input
 cannot contain any variable names that need to be returned as part of the
 scoring: lurn_si_10_score, lurn_si_10_count_valid, or lurn_si_10_note. Any
-character data will be coerced to numeric (e.g., "1" will be coerced to 1).}
+character data will be coerced to numeric (e.g., "1" will be coerced to 1).
+Although it is not scored, the bother items should be named SI10_BOTHER and
+coded 0, 1, 2, 3.}
 
 \item{transfer_vars}{A vector of variable names to be found in input.
 These variables will be returned in the output along with the
@@ -36,12 +38,19 @@ to NA with a warning message.}
 \value{
 A dataframe of output containing LURN SI-10 scores,
 a count of valid items, and a scoring note. Any variables
-requested in transfer_vars will also be returned.
+requested in transfer_vars will also be returned. If all of the LURN SI-10
+items are returned with the output, then the output will be given an
+additional class of "LURN_SI_10" for additional methods
+(e.g., plot.LURN_SI_10).
 }
 \description{
 This function returns takes a dataframe, extracts the
 LURN SI-10 items, calculates the LURN SI-10 score, and returns the
-score along with any other requested variables from the input.
+score along with any other requested variables from the input. If
+you request all of the LURN SI-10 items in the output
+(true using  default settings), then the output will be given an
+additional class of "LURN_SI_10", enabling additional S3 methods
+(e.g., plot).
 }
 \details{
 If only a subset of variables are desired to be returned,
@@ -50,13 +59,13 @@ It should be noted that if any out-of-range or non-numeric
 (e.g., character) values are detected, then execution of the
 function will stop by default. You can set warn_or_stop to "warn"
 (see below), in which case any out-of-range values or non-numeric
-values are recoded to NA, and a warning will be displayed. We recommend
-that you pre-process your data so that all values are in-range so that
-execution can proceed normally and no warnings are needed.
+values are recoded to NA, and a warning will be displayed. We strongly
+recommend that you pre-process your data so that all values are in-range
+so that execution can proceed normally and no warnings are needed.
 }
 \section{Item response coding}{
  Items 1-10 must be coded with 0-4 for
-Items 1-8 and 0-3 for Items 9 and 10.
+Items 1-8 and 0-3 for Items 9 and 10 and the bother question.
 This coding must be respected in order for the algorithm to work properly.
 You can check the numbering on the official versions on the questionnaires
 found at \url{https://nih-lurn.org/Resources/Questionnaires}. A check on
@@ -67,7 +76,7 @@ carefully check your input.
 
 \examples{
 \dontrun{
-score_lurn_si_10(input = lurn_data)
+score_lurn_si_10(input = lurn_si_10_test_data)
 }
 }
 \seealso{

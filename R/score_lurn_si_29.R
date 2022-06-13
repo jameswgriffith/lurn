@@ -198,7 +198,7 @@ score_lurn_si_29 <- function(input,
            lurn_si_29_nocturia_count_valid < 2,
            paste("Missing total or subscale scores due to half or more items",
            "missing among all questions or among questions in that subscale"),
-           NA)
+           NA_character_)
 
   lurn_si_29_bother <- unname(si_29_items[[si_29_names[29]]])
 
