@@ -101,7 +101,7 @@ autoplot.LURN_SI_10 <- function(object, ...) {
     ggplot2::geom_bar(position = "fill",
              colour = "black") +
     ggplot2::scale_y_continuous(
-      name = "Proportion",
+      name = "Proportion or item responses",
       expand = c(0.005, 0.005),
       limits = c(0, 1)) +
     ggplot2::scale_fill_manual(values = colours) +
