@@ -16,7 +16,7 @@
 #' The items of the SI-10 must use the recommended names:
 #' SI10_Q1-SI10_Q10, and SI10_BOTHER. Case matters for the variable names.
 #'
-#' @param ... Other arguments passed to autoplot, ggplot2, or print
+#' @param ... Other arguments passed to autoplot (not currently used).
 #'
 #' @section Item response coding: Items 1-10 must be coded with 0-4 for
 #' Items 1-8 and 0-3 for Items 9, 10, and the BOTHER question.
@@ -42,6 +42,6 @@
 #'
 #' @importFrom ggplot2 autoplot
 plot.LURN_SI_10 <- function(x, ...) {
-  print(ggplot2::autoplot(x, ...), ...)
+  print(ggplot2::autoplot(x, ...))
   invisible()
 }

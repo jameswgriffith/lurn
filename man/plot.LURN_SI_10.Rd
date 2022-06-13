@@ -14,7 +14,7 @@ contains LURN SI-10 items. Other columns may also be present.
 The items of the SI-10 must use the recommended names:
 SI10_Q1-SI10_Q10, and SI10_BOTHER. Case matters for the variable names.}
 
-\item{...}{Other arguments passed to autoplot, ggplot2, or print}
+\item{...}{Other arguments passed to autoplot (not currently used).}
 }
 \value{
 A ggplot2 object. Use \code{print()} to display the plot.
