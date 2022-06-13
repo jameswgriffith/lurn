@@ -4,9 +4,9 @@
 #' LURN SI-10 items, calculates the LURN SI-10 score, and returns the
 #' score along with any other requested variables from the input. If
 #' you request all of the LURN SI-10 items in the output
-#' (true using  default settings), then the output will be given an
-#' additional class of "LURN_SI_10", enabling additional S3 methods
-#' (e.g., plot).
+#' (which will be true using the default settings),
+#' then the output will be given an additional class of
+#' "LURN_SI_10", enabling additional S3 methods (e.g., plot).
 #'
 #' @details
 #' If only a subset of variables are desired to be returned,
