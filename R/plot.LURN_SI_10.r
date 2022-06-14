@@ -1,6 +1,4 @@
 #' Plots a stacked bar chart for each item of the LURN SI-10
-#' (All 10 symptom items, plus the bother item). This plot method
-#' can be used after the LURN SI-10 data have been scored.
 #'
 #' @description Plots a stacked bar chart for each item of
 #' the LURN SI-10 (All 10 symptom items, plus the bother item).

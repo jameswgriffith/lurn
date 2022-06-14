@@ -2,9 +2,7 @@
 % Please edit documentation in R/plot.LURN_SI_10.r
 \name{plot.LURN_SI_10}
 \alias{plot.LURN_SI_10}
-\title{Plots a stacked bar chart for each item of the LURN SI-10
-(All 10 symptom items, plus the bother item). This plot method
-can be used after the LURN SI-10 data have been scored.}
+\title{Plots a stacked bar chart for each item of the LURN SI-10}
 \usage{
 \method{plot}{LURN_SI_10}(x, ...)
 }
