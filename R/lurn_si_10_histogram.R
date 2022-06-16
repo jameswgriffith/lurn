@@ -63,5 +63,6 @@ lurn_si_10_histogram <- function(x,
                     plot.caption = ggplot2::element_text(
                     hjust = 0.0,
                     face = "plain",
-                    size = ggplot2::rel(1)))
+                    size = ggplot2::rel(1)),
+                    plot.title = ggplot2::element_text(size = ggplot2::rel(1.5)))
 }

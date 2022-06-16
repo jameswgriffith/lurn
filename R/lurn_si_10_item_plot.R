@@ -86,5 +86,6 @@ lurn_si_10_item_plot <- function(x, title, ...) {
         size = ggplot2:: rel(1.1)),
       axis.title = ggplot2::element_text(
         size = ggplot2::rel(1.3),
-        face = "bold"))
+        face = "bold"),
+      plot.title = ggplot2::element_text(size = ggplot2::rel(1.5)))
 }

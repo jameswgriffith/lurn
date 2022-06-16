@@ -167,8 +167,11 @@ stop_or_warn_message <- function(problem_vars_factors,
              length(problem_vars_num_out_of_rng) > 0 &&
              warn_or_stop == "warn") {
     warning("Your variables for the ", q_name, " items contain ",
-            "out-of-range values. If this was not expected, ",
-            "Please check your input very carefully and try again.\n\n",
+            "out-of-range values, which have been coerced to NA. ",
+            "If this was not expected, ",
+            "Please check your input very carefully and try again. ",
+            "Otherwise, please check your input, scores, and results ",
+            "very carefully.\n\n",
             "The following variables contain out-of-range values:\n\n",
             paste(problem_vars_num_out_of_rng, collapse = " "),
             call. = FALSE,
