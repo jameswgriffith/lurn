@@ -4,7 +4,7 @@ add_LURN_SI_10_class <- function(x) {
          "Please try again.")
   }
 
-  if (!"LURN_SI_10" %in% class(x)){
+  if (!"LURN_SI_10" %in% class(x)) {
     class(x) <- append(class(x), "LURN_SI_10", 0)
   }
 

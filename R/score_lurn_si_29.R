@@ -14,7 +14,8 @@
 #' will be coerced to numeric as part of the scoring.
 #'
 #' @param input A dataframe containing LURN SI-29 items. Other columns may also
-#' be present and will be returned by the function (if desired).
+#' be present and will be returned by the function (if desired). The items
+#' should be numeric type (e.g., not factors, not character)
 #'
 #' @section Setting up your input:
 #' You must use the recommended variables names for the LURN SI-29, which
@@ -31,6 +32,12 @@
 #' A check on your input will be conducted when you score your data.
 #' If your data appear to be mis-coded,
 #' you will receive a friendly message encouraging you to check your input.
+#'
+#' @section Data type for LURN SI-29 items: We recommend that numeric type
+#' be used for the LURN SI-29 data. If you use factors,
+#' then the function will stop and issue an error message. If you set
+#' "warn_or_stop" to "warn", the function will attempt to fix up your data
+#' and present a warning.
 #'
 #' @section Setting up Gender in your input:
 #' Your input needs to contain a variable "Gender" with numeric
@@ -98,9 +105,22 @@ score_lurn_si_29 <- function(input,
 
   n <- nrow(input[si_29_names])
 
-    # Recode non-numeric to NA
+  # Recode factors to character type
+  si_29_items <- apply(input[si_29_names],
+                        2,
+                        function(item) {
+                          if (is.factor(item)) {
+                            as.character(item)
+                          } else {
+                            item
+                          }
+                        })
+
+  si_29_items <- as.data.frame(si_29_items)
+
+  # Recode non-numeric to NA
   si_29_items <- suppressWarnings(
-    vapply(input[si_29_names], as.numeric, numeric(n)))
+    vapply(si_29_items, as.numeric, numeric(n)))
 
   si_29_items <- as.data.frame(si_29_items)
 
@@ -237,4 +257,5 @@ score_lurn_si_29 <- function(input,
   cbind(
     input[transfer_vars],
     lurn_si_29_all_output[returned_vars])
+
 }

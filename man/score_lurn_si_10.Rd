@@ -18,7 +18,9 @@ cannot contain any variable names that need to be returned as part of the
 scoring: lurn_si_10_score, lurn_si_10_count_valid, or lurn_si_10_note. Any
 character data will be coerced to numeric (e.g., "1" will be coerced to 1).
 Although it is not scored, the bother items should be named SI10_BOTHER and
-coded 0, 1, 2, 3.}
+coded 0, 1, 2, 3. If "warn_or_stop" is set to "warn", the function
+will attempt to automatically recode factors to numeric type as well, but
+we recommend using numeric data for the LURN SI-10.}
 
 \item{transfer_vars}{A vector of variable names to be found in input.
 These variables will be returned in the output along with the
@@ -72,6 +74,14 @@ found at \url{https://nih-lurn.org/Resources/Questionnaires}. A check on
 your input will be conducted when you score your data. If your data appear
 to be mis-coded, you will receive a friendly message encouraging you to
 carefully check your input.
+}
+
+\section{Data type for LURN SI-10 items}{
+ We recommend that numeric type
+be used for the LURN SI-10 data. If you use factors,
+then the function will stop with an error message. If you set
+"warn_or_stop" to "warn", the function will attempt to fix up your data
+and present a warning.
 }
 
 \examples{

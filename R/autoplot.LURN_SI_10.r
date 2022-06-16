@@ -1,20 +1,37 @@
-#' Creates a stacked bar chart using ggplot2 for each item of the LURN SI-10
-#' (All 10 symptom items, plus the bother item).
+#' Uses ggplot2 to create helpful plots for the LURN SI-10.
+#' Plots include a stacked bar chart ("item plot")
+#' for each item of the LURN SI-10
+#' (All 10 symptom items, plus the bother item), as well as a histogram.
 #'
-#' @description Creates a stacked bar chart using ggplot2 for each item of
+#' @description Selecting "item plot" (the default)
+#' will create a stacked bar chart
+#' using ggplot2 for each item of
 #' the LURN SI-10 (All 10 symptom items, plus the bother item).
 #' Any responses that are out-of-range or character data will show up in red,
-#' signalling a potential problem in your data.
+#' signalling a potential problem in your data. Selecting "histogram"
+#' will create a histogram with intervals of [0, 2), [2, 4) and so on.
 #'
 #' @details Any dataframe scored using score_lurn_si_10() will be given
-#' a class of "LURN_SI_10", allowing autoplot() to be used. (Other S3 methods
-#' will be added later).
+#' a class of "LURN_SI_10", allowing autoplot() to be used.
 #'
 #' @param object A dataframe containing LURN SI-10 items. Other columns may
 #' also be present. The items of the SI-10 must use the recommended names:
 #' SI10_Q1 - SI10_Q10, and SI10_BOTHER. Case matters for the variable names.
 #'
-#' @param ... Other arguments passed to ggplot2.
+#' @param plot_type A parameter used to choose from among built-in
+#' plot types. Choices are "item plot" or "histogram:.
+#'
+#' @param title We encourage you to use a descriptive title for your plot.
+#' This is NULL by default, which will not include a title
+#'
+#' @param hist_caption_stats Logical parameter allowing you to choose
+#' whether you would like LURN SI-10 statistics to be printed in the
+#' caption of your histogram.
+#'
+#' @param hist_color This is set to a pale blue-green by default ("#7bccc4").
+#' If you prefer a black-and-white graph, we recommend "darkgray"
+#'
+#' @param ... Other arguments passed to other functions.
 #'
 #' @section Item response coding: Items 1-10 must be coded with 0-4 for
 #' Items 1-8 and 0-3 for Items 9, 10, and the bother question.
@@ -22,6 +39,7 @@
 #'
 #' @seealso You can use \code{score_lurn_si_10()} to score the LURN SI-10,
 #' which will return a dataframe with an additional class of "LURN_SI_10".
+#' You can use \code{plot()} to automatically print your plot.
 #'
 #' @return A ggplot2 object. Use \code{print()} to display the plot.
 #'
@@ -36,100 +54,32 @@
 #' print(si10_item_plot)
 #' plot(si10_item_plot)
 #'
+#' si10_item_plot +
+#' ggtitle("LURN data")
+#'
 #' }
-#' @importFrom stats reshape
-#' @importFrom ggplot2 ggplot aes geom_bar scale_y_continuous scale_fill_manual
-#' scale_x_discrete labs theme rel element_text element_line
-#' @importFrom rlang .data
-autoplot.LURN_SI_10 <- function(object, ...) {
+#' @importFrom ggplot2 autoplot
+autoplot.LURN_SI_10 <- function(object,
+                                plot_type = c("item plot",
+                                              "histogram"),
+                                title = NULL,
+                                hist_caption_stats = TRUE,
+                                hist_color = "#7bccc4",
+                                ...) {
 
-  x <- object
+  error_check_lurn_si_10_plot(object,
+                              plot_type,
+                              hist_caption_stats)
 
-  check_for_lurn_si_10_plot_errors(x)
+  plot_type <- match.arg(plot_type)
 
-  x$id <- rownames(x)
-
-  lurn_si_10_names <- lurn_si_10_names(include_bother_item = TRUE)
-
-  x <- stats::reshape(
-    x,
-    direction = "long",
-    v.names = "Item responses",
-    timevar = "Item",
-    times = lurn_si_10_names,
-    varying = lurn_si_10_names,
-    idvar = "id")
-
-  rownames(x) <- NULL
-
-  x$`Item responses` <-
-    ifelse(x$`Item responses` %in% 0:4 |
-             is.na(x$`Item responses`),
-           x$`Item responses`,
-           "Out-of-range/Character")
-
-  x$Item <- factor(x$Item,
-                   levels = lurn_si_10_names)
-
-  x$`Item responses` <-
-    factor(x$`Item responses`,
-           levels = c(4, 3, 2, 1, 0, "Out-of-range/Character"))
-
-  colours <-
-    c("#0868ac",
-      "#43a2ca",
-      "#7bccc4",
-      "#bae4bc",
-      "#f0f9e8",
-      "#FF0000")
-
-  item_labels <- c(
-    SI10_Q1 = "Q1: Urgency",
-    SI10_Q2 = "Q2: UUI",
-    SI10_Q3 = "Q3: SUI: Laugh/Sneeze/Cough",
-    SI10_Q4 = "Q4: SUI: Straining",
-    SI10_Q5 = "Q5: Pain with filling",
-    SI10_Q6 = "Q6: Hesitancy",
-    SI10_Q7 = "Q7: Weak stream",
-    SI10_Q8 = "Q8: Post-void dribbling",
-    SI10_Q9 = "Q9: Daytime frequency",
-    SI10_Q10 = "Q10: Nightime frequency",
-    SI10_BOTHER = "Bother")
-
-  ggplot2::ggplot(x, ggplot2::aes(x = .data$Item,
-                                  fill = .data$`Item responses`)) +
-    ggplot2::geom_bar(position = "fill",
-             colour = "black") +
-    ggplot2::scale_y_continuous(
-      name = "Proportion or item responses",
-      expand = c(0.005, 0.005),
-      limits = c(0, 1)) +
-    ggplot2::scale_fill_manual(values = colours) +
-    ggplot2::scale_x_discrete(
-      "LURN SI-10 Item",
-      labels = item_labels,
-      expand = c(0.05, 0.05)) +
-    ggplot2::labs(caption =
-                    paste0("Q1-Q8: Never to Almost always (0-4); ",
-                           "Q9: 3 or fewer times to 11 or more times (0-3)\n",
-                           "Q10: None to more than 3 times (0-3); ",
-                           "Bother: Not at all to Extremely Bothered (0-3)")) +
-    ggplot2::theme(
-      plot.caption = ggplot2::element_text(
-        hjust = 0.0,
-        face = "bold",
-        size = ggplot2::rel(1.1)),
-      axis.line = ggplot2::element_line(size = ggplot2::rel(0.5),
-        colour = "black",
-        linetype = 1),
-      axis.text.x = ggplot2::element_text(
-        angle = -45,
-        vjust = 0.5,
-        hjust = 0.025,
-        size = ggplot2::rel(1.2)),
-      axis.text.y = ggplot2::element_text(
-        size = ggplot2:: rel(1.1)),
-      axis.title = ggplot2::element_text(
-        size = ggplot2::rel(1.3),
-        face = "bold"))
+  switch(plot_type,
+    "item plot" = lurn_si_10_item_plot(object,
+                                       title,
+                                       ...),
+    "histogram" = lurn_si_10_histogram(object,
+                                       title,
+                                       hist_caption_stats,
+                                       hist_color,
+                                       ...))
 }

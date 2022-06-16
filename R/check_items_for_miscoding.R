@@ -10,10 +10,10 @@ check_items_for_miscoding <- function(items,
   possibly_miscoded_items <- vector(mode = "character")
 
   item_ranges <- switch(which_items,
-                        "1. LURN SI-10 (not including bother)" = lurn_si_10_item_ranges(),
-                        "2. LURN SI-10 (all items)" =
-                          lurn_si_10_item_ranges(include_bother_item = FALSE),
-                        "3. LURN SI-29" = lurn_si_29_item_ranges())
+    "1. LURN SI-10 (not including bother)" = lurn_si_10_item_ranges(),
+    "2. LURN SI-10 (all items)" =
+      lurn_si_10_item_ranges(include_bother_item = FALSE),
+    "3. LURN SI-29" = lurn_si_29_item_ranges())
 
   item_names <- names(items)
 

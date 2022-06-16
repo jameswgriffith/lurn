@@ -26,7 +26,9 @@
 #' scoring: lurn_si_10_score, lurn_si_10_count_valid, or lurn_si_10_note. Any
 #' character data will be coerced to numeric (e.g., "1" will be coerced to 1).
 #' Although it is not scored, the bother items should be named SI10_BOTHER and
-#' coded 0, 1, 2, 3.
+#' coded 0, 1, 2, 3. If "warn_or_stop" is set to "warn", the function
+#' will attempt to automatically recode factors to numeric type as well, but
+#' we recommend using numeric data for the LURN SI-10.
 #'
 #' @section Item response coding: Items 1-10 must be coded with 0-4 for
 #' Items 1-8 and 0-3 for Items 9 and 10 and the bother question.
@@ -36,6 +38,12 @@
 #' your input will be conducted when you score your data. If your data appear
 #' to be mis-coded, you will receive a friendly message encouraging you to
 #' carefully check your input.
+#'
+#' @section Data type for LURN SI-10 items: We recommend that numeric type
+#' be used for the LURN SI-10 data. If you use factors,
+#' then the function will stop with an error message. If you set
+#' "warn_or_stop" to "warn", the function will attempt to fix up your data
+#' and present a warning.
 
 #' @param transfer_vars A vector of variable names to be found in input.
 #' These variables will be returned in the output along with the
@@ -76,13 +84,14 @@ score_lurn_si_10 <- function(input,
 
   # Check for errors in the the arguments
   check_args_score_lurn_si_10(input = input,
-                              transfer_vars = transfer_vars)
+                              transfer_vars = transfer_vars,
+                              warn_or_stop = warn_or_stop)
 
   si_10_names <- lurn_si_10_names(include_bother_item = FALSE)
 
   # Check each column for out-of-range or non-numeric data
-  check_si_10_items(si_10_names = si_10_names,
-                    input = input,
+  check_si_10_items(input = input,
+                    si_10_names = si_10_names,
                     warn_or_stop = warn_or_stop)
 
   # Extract SI-10 items
@@ -90,12 +99,15 @@ score_lurn_si_10 <- function(input,
 
   n <- nrow(si_10)
 
-  si_10_recoded <- suppressWarnings(
-    vapply(si_10, as.numeric, numeric(n)))
+  # Recode factors to character type
+  si10_recoded <- factor_cols_to_char(si_10)
 
-  item_ranges <- lurn_si_10_item_ranges(include_bother_item = FALSE)
+  si_10_recoded <- suppressWarnings(
+    vapply(si10_recoded, as.numeric, numeric(n)))
 
   si_10_recoded <- as.data.frame(si_10_recoded)
+
+  item_ranges <- lurn_si_10_item_ranges(include_bother_item = FALSE)
 
   # Convert out-of-range values to NA
   for (i in seq_len(ncol(si_10_recoded))) {
@@ -126,7 +138,7 @@ score_lurn_si_10 <- function(input,
 
   # Score SI-10
   for (i in seq_len(nrow(input))) {
-    if(count_valid[i] > 5) {
+    if (count_valid[i] > 5) {
       lurn_si_10_score[i] <- si_10_item_sum[i] / max_possible[i] * 38
       lurn_si_10_note[i] <- NA_character_
     } else {
@@ -154,4 +166,5 @@ score_lurn_si_10 <- function(input,
   } else {
     output
   }
+
 }

@@ -1,6 +1,6 @@
-check_args_score_lurn_si_10 <- function(
-    input,
-    transfer_vars) {
+check_args_score_lurn_si_10 <- function(input,
+                                        transfer_vars,
+                                        warn_or_stop) {
 
   si_10_names <- lurn_si_10_names(include_bother_item = FALSE)
 

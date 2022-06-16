@@ -12,7 +12,8 @@ score_lurn_si_29(
 }
 \arguments{
 \item{input}{A dataframe containing LURN SI-29 items. Other columns may also
-be present and will be returned by the function (if desired).}
+be present and will be returned by the function (if desired). The items
+should be numeric type (e.g., not factors, not character)}
 
 \item{transfer_vars}{A vector of variable names to be found in input.
 These variables will be returned in the output along with
@@ -65,6 +66,14 @@ at \url{https://nih-lurn.org/Resources/Questionnaires}.
 A check on your input will be conducted when you score your data.
 If your data appear to be mis-coded,
 you will receive a friendly message encouraging you to check your input.
+}
+
+\section{Data type for LURN SI-29 items}{
+ We recommend that numeric type
+be used for the LURN SI-29 data. If you use factors,
+then the function will stop and issue an error message. If you set
+"warn_or_stop" to "warn", the function will attempt to fix up your data
+and present a warning.
 }
 
 \section{Setting up Gender in your input}{
