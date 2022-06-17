@@ -3,6 +3,7 @@ lurn_si_10_histogram <- function(x,
                                  title,
                                  hist_caption_stats = TRUE,
                                  hist_color = "#7bccc4",
+                                 n_digits = 1,
                                  ...) {
 
   dots_args <- list(...)
@@ -11,16 +12,25 @@ lurn_si_10_histogram <- function(x,
     hist_color <- dots_args$hist_colour
   }
 
-  lurn_si_10_mean <- round(mean(x$lurn_si_10_score, na.rm = TRUE), 1)
-  lurn_si_10_sd <- round(stats::sd(x$lurn_si_10_score, na.rm = TRUE), 1)
-  lurn_si_10_min <- round(min(x$lurn_si_10_score, na.rm = TRUE), 1)
-  lurn_si_10_mdn <- round(stats::median(x$lurn_si_10_score, na.rm = TRUE), 1)
-  lurn_si_10_max <- round(max(x$lurn_si_10_score, na.rm = TRUE), 1)
+  lurn_si_10_mean <-
+    format(round(mean(x$lurn_si_10_score, na.rm = TRUE), n_digits),
+           nsmall = n_digits)
+  lurn_si_10_sd <- format(round(stats::sd(x$lurn_si_10_score, na.rm = TRUE),
+                                n_digits), nsmall = n_digits)
+  lurn_si_10_min <- format(round(min(x$lurn_si_10_score, na.rm = TRUE),
+                                 n_digits), nsmall = n_digits)
+  lurn_si_10_mdn <- format(round(stats::median(x$lurn_si_10_score,
+                                               na.rm = TRUE), n_digits),
+                           nsmall = n_digits)
+  lurn_si_10_max <- format(round(max(x$lurn_si_10_score, na.rm = TRUE),
+                                 n_digits), nsmall = n_digits)
   lurn_si_10_n <-
     sum(!is.na(x$lurn_si_10_score), na.rm = TRUE)
   lurn_si_10_n_missing <-
     sum(is.na(x$lurn_si_10_score), na.rm = TRUE)
-  lurn_si_10_mean_n_valid <- round(mean(x$lurn_si_10_count_valid, na.rm = TRUE), 1)
+  lurn_si_10_mean_n_valid <- format(round(mean(x$lurn_si_10_count_valid,
+                                               na.rm = TRUE), n_digits),
+                                    nsmall = n_digits)
 
   if(hist_caption_stats) {
     caption_text <- paste0("LURN SI-10 STATISTICS:\n",

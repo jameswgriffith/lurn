@@ -10,6 +10,7 @@
   title = NULL,
   hist_caption_stats = TRUE,
   hist_color = "#7bccc4",
+  n_digits = 1,
   ...
 )
 }
@@ -33,6 +34,9 @@ the histogram}
 \item{hist_color}{This is set to a pale blue-green by default ("#7bccc4").
 If you prefer a grayscake graph, we recommend "darkgray". This parameter
 is only relevant for the histogram.}
+
+\item{n_digits}{The number of decimals to display in the summary statistics
+in the caption of the histogram. This is set to 1 by default.}
 
 \item{...}{Other arguments.}
 }

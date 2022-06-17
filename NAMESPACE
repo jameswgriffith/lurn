@@ -2,6 +2,7 @@
 
 S3method(autoplot,LURN_SI_10)
 S3method(plot,LURN_SI_10)
+S3method(summary,LURN_SI_10)
 export(lurn_si_10_names)
 export(lurn_si_29_names)
 export(score_lurn_si_10)

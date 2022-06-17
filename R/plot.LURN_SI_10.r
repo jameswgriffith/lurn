@@ -35,6 +35,9 @@
 #' If you prefer a grayscake graph, we recommend "darkgray". This parameter
 #' is only relevant for the histogram.
 #'
+#' @param n_digits The number of decimals to display in the summary statistics
+#' in the caption of the histogram. This is set to 1 by default.
+#'
 #' @param ... Other arguments.
 #'
 #' @section Item response coding: Items 1-10 must be coded with 0-4 for
@@ -64,13 +67,15 @@ plot.LURN_SI_10 <- function(x,
                             title = NULL,
                             hist_caption_stats = TRUE,
                             hist_color = "#7bccc4",
+                            n_digits = 1,
                             ...) {
   print(ggplot2::autoplot(x,
                           plot_type,
                           title,
                           hist_caption_stats,
                           hist_color,
-                          ...))
+                          n_digits,
+                          ...), ...)
   invisible()
 
 }
