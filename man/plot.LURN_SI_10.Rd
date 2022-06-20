@@ -6,7 +6,7 @@
 \usage{
 \method{plot}{LURN_SI_10}(
   x,
-  plot_type = c("item plot", "histogram"),
+  plot_type = c("item plot", "histogram", "plot.default"),
   title = NULL,
   hist_caption_stats = TRUE,
   hist_color = "#7bccc4",

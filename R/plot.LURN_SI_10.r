@@ -69,7 +69,8 @@
 #' }
 plot.LURN_SI_10 <- function(x,
                             plot_type = c("item plot",
-                                          "histogram"),
+                                          "histogram",
+                                          "plot.default"),
                             title = NULL,
                             hist_caption_stats = TRUE,
                             hist_color = "#7bccc4",
