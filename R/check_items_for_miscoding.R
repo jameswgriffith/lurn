@@ -28,7 +28,7 @@ check_items_for_miscoding <- function(items,
   }
 
   if (length(possibly_miscoded_items) > 0) {
-    message("\nThere may be one or more mis-coded variables in your data.\n",
+    message("\nThere may be one or more mis-coded variables in your data. ",
             "All item responses should be coded starting at 0\n",
             "(e.g., 0, 1, 2, ...)\n\n",
             "Variables that are possibly mis-coded are as follows:\n",

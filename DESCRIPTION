@@ -3,7 +3,10 @@ Type: Package
 Title: Tools for LURN Research: Scoring the LURN SI-10 and LURN SI-29
 Version: 0.4.0
 Date: 2022-06-13
-Author: James W Griffith
+Authors@R: c(
+    person("James W", "Griffith", , "j-griffith@northwestern.edu",
+    role = c("aut", "cre"),
+    comment = c(ORCID = "0000-0002-4840-8692")))
 Maintainer: James W Griffith <j-griffith@northwestern.edu>
 Description: This package is primarily use for scoring of the LURN SI-10 and 
     LURN SI-29. Additional tools related to LURN research may be added in 
@@ -23,3 +26,5 @@ Imports:
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
+Author: James W Griffith [aut, cre]
+    (<https://orcid.org/0000-0002-4840-8692>)

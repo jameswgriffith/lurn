@@ -66,9 +66,10 @@ recommend that you pre-process your data so that all values are in-range
 so that execution can proceed normally and no warnings are needed.
 }
 \section{Item response coding}{
- Items 1-10 must be coded with 0-4 for
-Items 1-8 and 0-3 for Items 9 and 10 and the bother question.
-This coding must be respected in order for the algorithm to work properly.
+ Items 1-8 are coded with 0-4;
+Items 9, 10 are coded with 0-3;
+the bother question is coded with 0-3.
+This coding must be respected in order for the plot to be properly produced.
 You can check the numbering on the official versions on the questionnaires
 found at \url{https://nih-lurn.org/Resources/Questionnaires}. A check on
 your input will be conducted when you score your data. If your data appear

@@ -16,7 +16,7 @@
 #'
 #' @param object A dataframe containing LURN SI-10 items. Other columns may
 #' also be present. The items of the SI-10 must use the recommended names:
-#' SI10_Q1 - SI10_Q10, and SI10_BOTHER. Case matters for the variable names.
+#' SI10_Q1-SI10_Q10, and SI10_BOTHER. Case matters for the variable names.
 #'
 #' @param plot_type A parameter used to choose from among built-in
 #' plot types. Choices are "item plot" or "histogram:.
@@ -36,8 +36,9 @@
 #'
 #' @param ... Other arguments passed to other functions.
 #'
-#' @section Item response coding: Items 1-10 must be coded with 0-4 for
-#' Items 1-8 and 0-3 for Items 9, 10, and the bother question.
+#' @section Item response coding: Items 1-8 are coded with 0-4;
+#' Items 9, 10 are coded with 0-3;
+#' the bother question is coded with 0-3.
 #' This coding must be respected in order for the plot to be properly produced.
 #'
 #' @seealso You can use \code{score_lurn_si_10()} to score the LURN SI-10,

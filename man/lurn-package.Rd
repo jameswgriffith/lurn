@@ -21,4 +21,8 @@ Useful links:
 }
 
 }
+\author{
+\strong{Maintainer}: James W Griffith \email{j-griffith@northwestern.edu} (\href{https://orcid.org/0000-0002-4840-8692}{ORCID})
+
+}
 \keyword{internal}

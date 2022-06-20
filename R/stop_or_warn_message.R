@@ -103,11 +103,11 @@ stop_or_warn_message <- function(problem_vars_factors,
       length(problem_vars_num_out_of_rng) > 0 &&
       warn_or_stop == "stop") {
     stop("Your variables for the ", q_name, " items have ",
-         "both non-numeric and out-of-range values.",
+         "both non-numeric and out-of-range values. ",
          "Please use numeric input and try again.\n\n",
          "The following variables contain non-numeric values:\n\n",
          paste(problem_vars_non_factor_non_num, collapse = " "),
-         "\n\nThe following variables are out-of-range:\n\n",
+         "\n\nThe following variables contain out-of-range values:\n\n",
          paste(problem_vars_num_out_of_rng, collapse = " "),
          call. = FALSE)
   } else if (length(problem_vars_factors) == 0 &&
@@ -115,11 +115,11 @@ stop_or_warn_message <- function(problem_vars_factors,
              length(problem_vars_num_out_of_rng) > 0 &&
              warn_or_stop == "warn") {
     warning("Your variables for the ", q_name, " items have ",
-            "both non-numeric and out-of-range values.",
+            "both non-numeric and out-of-range values. ",
             "Please use numeric input and try again.\n\n",
             "The following variables contain non-numeric values:\n\n",
             paste(problem_vars_non_factor_non_num, collapse = " "),
-            "\n\nThe following variables are out-of-range:\n\n",
+            "\n\nThe following variables contain out-of-range values:\n\n",
             paste(problem_vars_num_out_of_rng, collapse = " "),
             call. = FALSE,
             immediate. = TRUE)

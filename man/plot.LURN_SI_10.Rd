@@ -21,7 +21,9 @@ The items of the SI-10 must use the recommended names:
 SI10_Q1-SI10_Q10, and SI10_BOTHER. Case matters for the variable names.}
 
 \item{plot_type}{A parameter used to choose from among built-in
-plot types. Choices are "item plot" or "histogram".}
+plot types. Choices are "item plot" (the default), "histogram", or
+"plot.default". The last option is to use default "graphics" plot
+on your "LURN_SI_10" object rather than the built-in plots.}
 
 \item{title}{We encourage you to use a descriptive title for your plot.
 This is NULL by default, which will not include a title.}
@@ -29,10 +31,10 @@ This is NULL by default, which will not include a title.}
 \item{hist_caption_stats}{Logical parameter allowing you to choose
 whether you would like LURN SI-10 statistics to be printed in the
 caption of your histogram. This parameter is relevant only for
-the histogram}
+the histogram.}
 
 \item{hist_color}{This is set to a pale blue-green by default ("#7bccc4").
-If you prefer a grayscake graph, we recommend "darkgray". This parameter
+If you prefer a grayscale graph, we recommend "darkgray". This parameter
 is only relevant for the histogram.}
 
 \item{n_digits}{The number of decimals to display in the summary statistics
@@ -41,7 +43,8 @@ in the caption of the histogram. This is set to 1 by default.}
 \item{...}{Other arguments.}
 }
 \value{
-A ggplot2 object. Use \code{print()} to display the plot.
+The function returns NULL invisibly. When this plot method is used,
+a ggplot2 object will be created using autoplot() and printed.
 }
 \description{
 Creates plots for the LURN SI-10, after it has been scored.
@@ -67,8 +70,9 @@ of the LURN SI-10.
 }
 
 \section{Item response coding}{
- Items 1-10 must be coded with 0-4 for
-Items 1-8 and 0-3 for Items 9, 10, and the BOTHER question.
+ Items 1-8 are coded with 0-4;
+Items 9, 10 are coded with 0-3;
+the bother question is coded with 0-3.
 This coding must be respected in order for the plot to be properly produced.
 }
 
@@ -79,7 +83,9 @@ autoplot(lurn_si_10_test_data)
 # Save the plot
 si10_item_plot <- autoplot(lurn_si_10_test_data)
 print(si10_item_plot)
-plot(si10_item_plot)
+
+# Print a plot directly from the data
+plot(lurn_si_10_test_data)
 
 }
 }
