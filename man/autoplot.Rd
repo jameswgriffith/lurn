@@ -2,7 +2,9 @@
 % Please edit documentation in R/export_from_ggplot2.R
 \name{autoplot}
 \alias{autoplot}
-\title{lurn functions exported from ggplot2}
+\title{Functions exported from ggplot2}
 \description{
-lurn functions exported from ggplot2
+autoplot() is exported so that it can be used, even if ggplot2
+is not loaded. Even so, we recommend loading ggplot2 using
+ \code{library(ggplot2)}.
 }
