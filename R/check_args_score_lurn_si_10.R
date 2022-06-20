@@ -21,7 +21,7 @@ check_args_score_lurn_si_10 <- function(input,
          "and try again.\n\n",
          "The offending variables found in your input were:\n\n",
          paste(returned_vars[returned_vars %in% names(input)], collapse = " "),
-         "\n")
+         call. = FALSE)
   }
 
   if (ncol(input) < 10) {
