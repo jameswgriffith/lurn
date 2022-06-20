@@ -69,7 +69,8 @@ check_args_score_lurn_si_29 <- function(input,
 
   if (!all(transfer_vars %in% names(input))) {
     stop("\n\nWe can only return the scores of the LURN SI-29 and variables ",
-         "found in the input. \nPlease try again, choosing only variable ",
+         "found in the input. \nPlease try again. For transfer_vars, ",
+         "choose only variable ",
          "names found in the input.",
          call. = FALSE)
   }

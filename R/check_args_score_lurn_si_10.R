@@ -35,21 +35,18 @@ check_args_score_lurn_si_10 <- function(input,
   }
 
   if (!all(transfer_vars %in% names(input))) {
-    stop(paste0("\n\nWe can only return the scoring results of ",
-                "the LURN SI-10 and ",
-                "variables found in the input.\n",
-                "Please try again, ",
-                "choosing only variable names found in input."),
-         call. = FALSE)
+    stop("\n\nWe can only return the scoring results of ",
+         "the LURN SI-10 and ",
+         "variables found in the input.\n",
+         "Please try again. For transfer_vars, ",
+         "choose only variable names found in input.",
+    call. = FALSE)
   }
 
   if (any(returned_vars %in% names(input))) {
-    stop(paste0("Variable names resulting from LURN SI-10 scoring are ",
-                " already found in the names of input.\n",
-                "Please modify your input and try again.\n\n",
-                "You should remove the following variables from your input:",
-                returned_vars),
-         call. = FALSE)
+    message("Variable names resulting from LURN SI-10 scoring are ",
+            "already found in the names of input.\n\n",
+            "Check your output carefully.")
   }
 
   invisible(NULL)

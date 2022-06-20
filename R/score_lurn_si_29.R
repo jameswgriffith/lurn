@@ -254,8 +254,9 @@ score_lurn_si_29 <- function(input,
       "lurn_si_29_urgency_count_valid",
       "lurn_si_29_nocturia_count_valid")
 
-  cbind(
+  data.frame(
     input[transfer_vars],
-    lurn_si_29_all_output[returned_vars])
+    lurn_si_29_all_output[returned_vars],
+    check.names = TRUE)
 
 }

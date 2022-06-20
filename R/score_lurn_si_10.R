@@ -157,9 +157,10 @@ score_lurn_si_10 <- function(input,
     lurn_si_10_note)
 
   # Prepare output
-  output <- cbind(
+  output <- data.frame(
     input[transfer_vars],
-    lurn_si_10_output)
+    lurn_si_10_output,
+    check.names = TRUE)
 
   # Return output
   if (all(lurn_si_10_names(include_bother_item = TRUE) %in% names(output))) {
