@@ -70,7 +70,7 @@ check_args_score_lurn_si_29 <- function(input,
             "already found in the names of input. ",
             "Please check your output carefully.\n\n",
             "The variables found were ",
-            paste(returned_vars[!returned_vars %in% names(input)], collapse = " "),
+            paste(returned_vars[returned_vars %in% names(input)], collapse = " "),
             "\n\n")
   }
 
