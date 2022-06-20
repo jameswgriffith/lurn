@@ -45,8 +45,11 @@ check_args_score_lurn_si_10 <- function(input,
 
   if (any(returned_vars %in% names(input))) {
     message("Variable names resulting from LURN SI-10 scoring are ",
-            "already found in the names of input.\n\n",
-            "Check your output carefully.")
+            "already found in the names of input. ",
+            "Please check your output carefully.\n\n",
+            "The variables found were ",
+            paste(returned_vars[!returned_vars %in% names(input)], collapse = " "),
+            "\n\n")
   }
 
   invisible(NULL)

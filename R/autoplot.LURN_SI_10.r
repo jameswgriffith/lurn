@@ -72,20 +72,20 @@ autoplot.LURN_SI_10 <- function(object,
                                 n_digits = 1,
                                 ...) {
 
-  error_check_lurn_si_10_plot(object,
-                              plot_type,
-                              hist_caption_stats)
+  error_check_lurn_si_10_plot(x = object,
+                              plot_type = plot_type,
+                              hist_caption_stats = hist_caption_stats)
 
   plot_type <- match.arg(plot_type)
 
   switch(plot_type,
-    "item plot" = lurn_si_10_item_plot(object,
-                                       title,
+    "item plot" = lurn_si_10_item_plot(x = object,
+                                       title = title,
                                        ...),
-    "histogram" = lurn_si_10_histogram(object,
-                                       title,
-                                       hist_caption_stats,
-                                       hist_color,
-                                       n_digits,
+    "histogram" = lurn_si_10_histogram(x = object,
+                                       title = title,
+                                       hist_caption_stats = hist_caption_stats,
+                                       hist_color = hist_color,
+                                       n_digits = n_digits,
                                        ...))
 }

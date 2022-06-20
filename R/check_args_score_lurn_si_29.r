@@ -49,6 +49,31 @@ check_args_score_lurn_si_29 <- function(input,
       }
   }
 
+  returned_vars <-
+    c("lurn_si_29_total_score",
+      "lurn_si_29_incontinence_score",
+      "lurn_si_29_pain_score",
+      "lurn_si_29_voiding_score",
+      "lurn_si_29_urgency_score",
+      "lurn_si_29_nocturia_score",
+      "lurn_si_29_bother",
+      "lurn_si_29_note",
+      "lurn_si_29_total_count_valid",
+      "lurn_si_29_incontinence_count_valid",
+      "lurn_si_29_pain_count_valid",
+      "lurn_si_29_voiding_count_valid",
+      "lurn_si_29_urgency_count_valid",
+      "lurn_si_29_nocturia_count_valid")
+
+  if (any(returned_vars %in% names(input))) {
+    message("Variable names resulting from LURN SI-10 scoring are ",
+            "already found in the names of input. ",
+            "Please check your output carefully.\n\n",
+            "The variables found were ",
+            paste(returned_vars[!returned_vars %in% names(input)], collapse = " "),
+            "\n\n")
+  }
+
   lurn_si_29_names <- lurn_si_29_names()
 
   # Are all of the items in the LURN SI-29 found in the input
