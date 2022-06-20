@@ -12,7 +12,8 @@ check_si_10_items <- function(input,
   problem_vars_non_factor_non_num <- vector(mode = "character")
   problem_vars_num_out_of_rng <- vector(mode = "character")
 
-  item_ranges <- lurn_si_10_item_ranges(include_bother_item = FALSE)
+  item_ranges <- lurn_si_10_item_ranges(include_bother_item = FALSE,
+                                        include_na = TRUE)
 
   for (i in seq_along(si_10_names)) {
 
@@ -35,17 +36,18 @@ check_si_10_items <- function(input,
       suppressWarnings(
         as.numeric(as.character(col_to_chk[!is.na(col_to_chk)])))
 
-    if (!all(col_to_chk_numeric %in% item_range)) {
+    if (any(!col_to_chk_numeric %in% item_range)) {
       problem_vars_num_out_of_rng <- append(problem_vars_num_out_of_rng,
                                             item_name)
     }
   }
 
-  stop_or_warn_message(problem_vars_factors,
-                       problem_vars_non_factor_non_num,
-                       problem_vars_num_out_of_rng,
-                       q_name = "LURN SI-10",
-                       warn_or_stop)
+  stop_or_warn_message(
+    problem_vars_factors = problem_vars_factors,
+    problem_vars_non_factor_non_num = problem_vars_non_factor_non_num,
+    problem_vars_num_out_of_rng = problem_vars_num_out_of_rng,
+    q_name = "LURN SI-10",
+    warn_or_stop = warn_or_stop)
 
   invisible(NULL)
 

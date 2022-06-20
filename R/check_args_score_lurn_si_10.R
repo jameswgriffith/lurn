@@ -46,7 +46,9 @@ check_args_score_lurn_si_10 <- function(input,
   if (any(returned_vars %in% names(input))) {
     stop(paste0("Variable names resulting from LURN SI-10 scoring are ",
                 " already found in the names of input.\n",
-                "Please modify your input and try again."),
+                "Please modify your input and try again.\n\n",
+                "You should remove the following variables from your input:",
+                returned_vars),
          call. = FALSE)
   }
 

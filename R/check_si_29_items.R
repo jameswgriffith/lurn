@@ -43,11 +43,12 @@ check_si_29_items <- function(si_29_items,
 
   }
 
-  stop_or_warn_message(problem_vars_factors,
-                       problem_vars_non_factor_non_num,
-                       problem_vars_num_out_of_rng,
-                       q_name = "LURN SI-29",
-                       warn_or_stop)
+  stop_or_warn_message(
+    problem_vars_factors = problem_vars_factors,
+    problem_vars_non_factor_non_num = problem_vars_non_factor_non_num,
+    problem_vars_num_out_of_rng = problem_vars_num_out_of_rng,
+    q_name = "LURN SI-29",
+    warn_or_stop = warn_or_stop)
 
   invisible(NULL)
 
