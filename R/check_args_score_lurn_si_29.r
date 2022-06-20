@@ -7,6 +7,33 @@ check_args_score_lurn_si_29 <- function(input,
          call. = FALSE)
   }
 
+  returned_vars <-
+    c("lurn_si_29_total_score",
+      "lurn_si_29_incontinence_score",
+      "lurn_si_29_pain_score",
+      "lurn_si_29_voiding_score",
+      "lurn_si_29_urgency_score",
+      "lurn_si_29_nocturia_score",
+      "lurn_si_29_bother",
+      "lurn_si_29_note",
+      "lurn_si_29_total_count_valid",
+      "lurn_si_29_incontinence_count_valid",
+      "lurn_si_29_pain_count_valid",
+      "lurn_si_29_voiding_count_valid",
+      "lurn_si_29_urgency_count_valid",
+      "lurn_si_29_nocturia_count_valid")
+
+  if (any(returned_vars %in% names(input))) {
+    stop("Variable names resulting from LURN SI-29 scoring are ",
+         "already found in the names of your input. ",
+         "Please rename or remove these variables from your input ",
+         "and try again.\n\n",
+         "The offending variables found in your input were:\n\n",
+         paste(returned_vars[returned_vars %in% names(input)], collapse = " "),
+         "\n\n",
+         call. = FALSE)
+  }
+
   gender_vname <- "Gender"
 
   # Is the name of the gender variable found in the input?
@@ -47,31 +74,6 @@ check_args_score_lurn_si_29 <- function(input,
       call. = FALSE,
       immediate. = TRUE)
       }
-  }
-
-  returned_vars <-
-    c("lurn_si_29_total_score",
-      "lurn_si_29_incontinence_score",
-      "lurn_si_29_pain_score",
-      "lurn_si_29_voiding_score",
-      "lurn_si_29_urgency_score",
-      "lurn_si_29_nocturia_score",
-      "lurn_si_29_bother",
-      "lurn_si_29_note",
-      "lurn_si_29_total_count_valid",
-      "lurn_si_29_incontinence_count_valid",
-      "lurn_si_29_pain_count_valid",
-      "lurn_si_29_voiding_count_valid",
-      "lurn_si_29_urgency_count_valid",
-      "lurn_si_29_nocturia_count_valid")
-
-  if (any(returned_vars %in% names(input))) {
-    message("Note: Variable names resulting from LURN SI-10 scoring are ",
-            "already found in the names of input. ",
-            "Please check your output carefully.\n\n",
-            "The variables found were:\n\n",
-            paste(returned_vars[returned_vars %in% names(input)], collapse = " "),
-            "\n\n")
   }
 
   lurn_si_29_names <- lurn_si_29_names()

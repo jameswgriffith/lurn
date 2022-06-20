@@ -31,7 +31,7 @@
 #' @param hist_color This is set to a pale blue-green by default ("#7bccc4").
 #' If you prefer a black-and-white graph, we recommend "darkgray"
 #'
-#' @param n_digits The number of decimals to display in the histogram caption.
+#' @param digits The number of decimals to display in the histogram caption.
 #' (set to 1 by default).
 #'
 #' @param ... Other arguments passed to other functions.
@@ -69,7 +69,7 @@ autoplot.LURN_SI_10 <- function(object,
                                 title = NULL,
                                 hist_caption_stats = TRUE,
                                 hist_color = "#7bccc4",
-                                n_digits = 1,
+                                digits = 1,
                                 ...) {
 
   error_check_lurn_si_10_plot(x = object,
@@ -78,14 +78,16 @@ autoplot.LURN_SI_10 <- function(object,
 
   plot_type <- match.arg(plot_type)
 
+  invisible(object)
+
   switch(plot_type,
     "item plot" = lurn_si_10_item_plot(x = object,
                                        title = title,
-                                       ...),
+                                       ... = ...),
     "histogram" = lurn_si_10_histogram(x = object,
                                        title = title,
                                        hist_caption_stats = hist_caption_stats,
                                        hist_color = hist_color,
-                                       n_digits = n_digits,
-                                       ...))
+                                       digits = digits,
+                                       ... = ...))
 }

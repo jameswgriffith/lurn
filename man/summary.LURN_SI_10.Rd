@@ -4,7 +4,7 @@
 \alias{summary.LURN_SI_10}
 \title{Summarizes the LURN SI-10, after it has been scored.}
 \usage{
-\method{summary}{LURN_SI_10}(object, n_digits = 1, ...)
+\method{summary}{LURN_SI_10}(object, digits = 1, ...)
 }
 \arguments{
 \item{object}{A dataframe, with the additional class of "LURN_SI_10", which
@@ -12,7 +12,7 @@ contains LURN SI-10 items and scores. Other columns may also be present.
 The items of the SI-10 must use the recommended names:
 SI10_Q1-SI10_Q10, and SI10_BOTHER. Case matters for the variable names.}
 
-\item{n_digits}{How may digits to include in the summary table?
+\item{digits}{How may digits to include in the summary table?
 For the proportion of missing data, as least two decimals will be
 shown.}
 

@@ -10,7 +10,7 @@
   title = NULL,
   hist_caption_stats = TRUE,
   hist_color = "#7bccc4",
-  n_digits = 1,
+  digits = 1,
   ...
 )
 }
@@ -37,8 +37,9 @@ the histogram.}
 If you prefer a grayscale graph, we recommend "darkgray". This parameter
 is only relevant for the histogram.}
 
-\item{n_digits}{The number of decimals to display in the summary statistics
-in the caption of the histogram. This is set to 1 by default.}
+\item{digits}{The number of decimals to display in the summary statistics
+in the caption of the histogram. This is set to 1 by default. This is
+only relevant for the histogram.}
 
 \item{...}{Other arguments.}
 }

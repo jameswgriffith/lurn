@@ -1,5 +1,7 @@
 #' @importFrom rlang .data
-lurn_si_10_item_plot <- function(x, title, ...) {
+lurn_si_10_item_plot <- function(x, title) {
+
+  invisible(x)
 
   x$id <- rownames(x)
 

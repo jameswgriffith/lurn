@@ -7,19 +7,20 @@
 score_lurn_si_10(
   input,
   transfer_vars = names(input),
-  warn_or_stop = c("stop", "warn")
+  warn_or_stop = c("stop", "warn"),
+  output_LURN_class = FALSE
 )
 }
 \arguments{
 \item{input}{A dataframe containing LURN SI-10 items. Other columns may also
 be present and will be returned by the function (if desired). The items of
-the SI-10 must use the recommended names: SI10_Q1 - SI10_Q10. The input
+the SI-10 must use the recommended names: SI10_Q1-SI10_Q10. The input
 cannot contain any variable names that need to be returned as part of the
 scoring: lurn_si_10_score, lurn_si_10_count_valid, or lurn_si_10_note. Any
 character data will be coerced to numeric (e.g., "1" will be coerced to 1).
 Although it is not scored, the bother items should be named SI10_BOTHER and
 coded 0, 1, 2, 3. If "warn_or_stop" is set to "warn", the function
-will attempt to automatically recode factors to numeric type as well, but
+will attempt to automatically re-code factors to numeric type as well, but
 we recommend using numeric data for the LURN SI-10.}
 
 \item{transfer_vars}{A vector of variable names to be found in input.
@@ -36,12 +37,20 @@ will need to fix your input in order to proceed.
 If warn_or_stop is set to "warn", then warnings will notify you that
 non-numeric or out-of-range data are present, which are then recoded
 to NA with a warning message.}
+
+\item{output_LURN_class}{If set to TRUE, your dataframe output will
+receive an additional class of "LURN_SI_10", which enable some
+LURN-specific plots and summaries using summary(), plot(), and
+autoplot() (a generic method of ggplot2). It is set to FALSE by default.
+If you do request output using the "LURN_SI_10" class, you can remove it
+later using remove_LURN_class().}
 }
 \value{
 A dataframe of output containing LURN SI-10 scores,
 a count of valid items, and a scoring note. Any variables
 requested in transfer_vars will also be returned. If all of the LURN SI-10
-items are returned with the output, then the output will be given an
+items are returned with the output, and output_LURN_class = TRUE,
+then the output will be given an
 additional class of "LURN_SI_10" for additional methods
 (e.g., plot.LURN_SI_10).
 }
@@ -49,10 +58,10 @@ additional class of "LURN_SI_10" for additional methods
 This function returns takes a dataframe, extracts the
 LURN SI-10 items, calculates the LURN SI-10 score, and returns the
 score along with any other requested variables from the input. If
-you request all of the LURN SI-10 items in the output
-(which will be true using the default settings),
+output_LURN_class is set to TRUE and all of the LURN SI-10 items
+are in transfer_vars (this will be true by  default),
 then the output will be given an additional class of
-"LURN_SI_10", enabling additional S3 methods (e.g., plot).
+"LURN_SI_10", enabling additional S3 methods (e.g., plot, summary).
 }
 \details{
 If only a subset of variables are desired to be returned,
@@ -61,7 +70,7 @@ It should be noted that if any out-of-range or non-numeric
 (e.g., character) values are detected, then execution of the
 function will stop by default. You can set warn_or_stop to "warn"
 (see below), in which case any out-of-range values or non-numeric
-values are recoded to NA, and a warning will be displayed. We strongly
+values are re-coded to NA, and a warning will be displayed. We strongly
 recommend that you pre-process your data so that all values are in-range
 so that execution can proceed normally and no warnings are needed.
 }
@@ -69,7 +78,7 @@ so that execution can proceed normally and no warnings are needed.
  Items 1-8 are coded with 0-4;
 Items 9, 10 are coded with 0-3;
 the bother question is coded with 0-3.
-This coding must be respected in order for the plot to be properly produced.
+This coding must be respected.
 You can check the numbering on the official versions on the questionnaires
 found at \url{https://nih-lurn.org/Resources/Questionnaires}. A check on
 your input will be conducted when you score your data. If your data appear

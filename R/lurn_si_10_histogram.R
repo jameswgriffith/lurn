@@ -3,8 +3,10 @@ lurn_si_10_histogram <- function(x,
                                  title,
                                  hist_caption_stats = TRUE,
                                  hist_color = "#7bccc4",
-                                 n_digits = 1,
+                                 digits = 1,
                                  ...) {
+
+  invisible(x)
 
   dots_args <- list(...)
 
@@ -13,24 +15,24 @@ lurn_si_10_histogram <- function(x,
   }
 
   lurn_si_10_mean <-
-    format(round(mean(x$lurn_si_10_score, na.rm = TRUE), n_digits),
-           nsmall = n_digits)
+    format(round(mean(x$lurn_si_10_score, na.rm = TRUE), digits),
+           nsmall = digits)
   lurn_si_10_sd <- format(round(stats::sd(x$lurn_si_10_score, na.rm = TRUE),
-                                n_digits), nsmall = n_digits)
+                                digits), nsmall = digits)
   lurn_si_10_min <- format(round(min(x$lurn_si_10_score, na.rm = TRUE),
-                                 n_digits), nsmall = n_digits)
+                                 digits), nsmall = digits)
   lurn_si_10_mdn <- format(round(stats::median(x$lurn_si_10_score,
-                                               na.rm = TRUE), n_digits),
-                           nsmall = n_digits)
+                                               na.rm = TRUE), digits),
+                           nsmall = digits)
   lurn_si_10_max <- format(round(max(x$lurn_si_10_score, na.rm = TRUE),
-                                 n_digits), nsmall = n_digits)
+                                 digits), nsmall = digits)
   lurn_si_10_n <-
     sum(!is.na(x$lurn_si_10_score), na.rm = TRUE)
   lurn_si_10_n_missing <-
     sum(is.na(x$lurn_si_10_score), na.rm = TRUE)
   lurn_si_10_mean_n_valid <- format(round(mean(x$lurn_si_10_count_valid,
-                                               na.rm = TRUE), n_digits),
-                                    nsmall = n_digits)
+                                               na.rm = TRUE), digits),
+                                    nsmall = digits)
 
   if(hist_caption_stats) {
     caption_text <- paste0("LURN SI-10 STATISTICS:\n",

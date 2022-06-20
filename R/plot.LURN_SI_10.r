@@ -37,8 +37,9 @@
 #' If you prefer a grayscale graph, we recommend "darkgray". This parameter
 #' is only relevant for the histogram.
 #'
-#' @param n_digits The number of decimals to display in the summary statistics
-#' in the caption of the histogram. This is set to 1 by default.
+#' @param digits The number of decimals to display in the summary statistics
+#' in the caption of the histogram. This is set to 1 by default. This is
+#' only relevant for the histogram.
 #'
 #' @param ... Other arguments.
 #'
@@ -74,7 +75,7 @@ plot.LURN_SI_10 <- function(x,
                             title = NULL,
                             hist_caption_stats = TRUE,
                             hist_color = "#7bccc4",
-                            n_digits = 1,
+                            digits = 1,
                             ...) {
 
   plot_type <- match.arg(plot_type)
@@ -85,12 +86,15 @@ plot.LURN_SI_10 <- function(x,
     plot(x, ... = ...)
 
   } else {
+
+    invisible(x)
+
     print(ggplot2::autoplot(object = x,
                             plot_type = plot_type,
                             title = title,
                             hist_caption_stats = hist_caption_stats,
                             hist_color = hist_color,
-                            n_digits = n_digits,
+                            digits = digits,
                             ...), ...)
   }
 
