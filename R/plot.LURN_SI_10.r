@@ -83,7 +83,7 @@ plot.LURN_SI_10 <- function(x,
     NextMethod("plot", x)
 
   } else {
-    print(ggplot2::autoplot(x = x,
+    print(ggplot2::autoplot(object = x,
                             plot_type = plot_type,
                             title = title,
                             hist_caption_stats = hist_caption_stats,
