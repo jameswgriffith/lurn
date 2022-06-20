@@ -2,7 +2,7 @@ Package: lurn
 Type: Package
 Title: Tools for LURN Research: Scoring the LURN SI-10 and LURN SI-29
 Version: 0.4.1
-Date: 2022-06-19
+Date: 2022-06-20
 Authors@R: c(
     person("James W", "Griffith", , "j-griffith@northwestern.edu",
     role = c("aut", "cre"),

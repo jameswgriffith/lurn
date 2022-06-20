@@ -82,7 +82,7 @@ plot.LURN_SI_10 <- function(x,
   if (plot_type == "plot.default") {
 
     class(x) <- class(x)[class(x) != "LURN_SI_10"]
-    plot(x, ...)
+    plot(x, ... = ...)
 
   } else {
     print(ggplot2::autoplot(object = x,

@@ -1,6 +1,7 @@
 error_check_lurn_si_10_plot <- function(x, plot_type, hist_caption_stats) {
+
   if (!is.data.frame(x)) {
-    stop("In order to use the built-in LURN plots,",
+    stop("In order to use the built-in LURN plots, ",
          "the input must be a dataframe, ",
          call. = FALSE)
   }
@@ -9,7 +10,7 @@ error_check_lurn_si_10_plot <- function(x, plot_type, hist_caption_stats) {
 
   if (!all(lurn_si_10_names %in% names(x)) &&
       plot_type == "item plot") {
-    stop("In order to use the built-in item plot,",
+    stop("In order to use the built-in item plot, ",
          "the variable names for the LURN SI-10 must ",
          "be found in the input.\n\n",
          "Please note: This includes SI10_BOTHER.",
@@ -19,7 +20,7 @@ error_check_lurn_si_10_plot <- function(x, plot_type, hist_caption_stats) {
   if (!all(lurn_si_10_names %in% names(x)) &&
       plot_type == "histogram" &&
       hist_caption_stats) {
-    stop("In order to use create the caption for the histogram,",
+    stop("In order to use create the caption for the histogram, ",
          "the variable names for the LURN SI-10 must ",
          "be found in the input.\n\n",
          call. = FALSE)
@@ -39,8 +40,10 @@ error_check_lurn_si_10_plot <- function(x, plot_type, hist_caption_stats) {
     stop("The scores and the valid item count for the LURN SI-10 ",
          "were not found. These are needed for the caption of the ",
          "histogram.\n\n",
-         "Please try again",
+         "Please try again.",
          call. = FALSE)
   }
+
+  invisible(NULL)
 
 }

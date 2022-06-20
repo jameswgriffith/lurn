@@ -66,10 +66,10 @@ check_args_score_lurn_si_29 <- function(input,
       "lurn_si_29_nocturia_count_valid")
 
   if (any(returned_vars %in% names(input))) {
-    message("Variable names resulting from LURN SI-10 scoring are ",
+    message("Note: Variable names resulting from LURN SI-10 scoring are ",
             "already found in the names of input. ",
             "Please check your output carefully.\n\n",
-            "The variables found were ",
+            "The variables found were:\n\n",
             paste(returned_vars[returned_vars %in% names(input)], collapse = " "),
             "\n\n")
   }
