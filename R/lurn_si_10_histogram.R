@@ -33,17 +33,22 @@ lurn_si_10_histogram <- function(x,
   lurn_si_10_mean_n_valid <- format(round(mean(x$lurn_si_10_count_valid,
                                                na.rm = TRUE), digits),
                                     nsmall = digits)
+  lurn_si_10_mean_n_valid_non_zero <-
+    format(round(mean(x$lurn_si_10_count_valid[x$lurn_si_10_count_valid > 0],
+                      na.rm = TRUE), digits), nsmall = digits)
 
   if(hist_caption_stats) {
     caption_text <- paste0("LURN SI-10 STATISTICS:\n",
+                           "Number of scores: ", lurn_si_10_n, "    ",
+                           "Number of missing scores: ", lurn_si_10_n_missing, "    ",
+                           "Mean number of valid responses: ",
+                           lurn_si_10_mean_n_valid, "\n",
+                           "Mean number of valid responses (cases with at least one symptom item completed): ",
+                           lurn_si_10_mean_n_valid_non_zero, "\n",
                            "Mean(SD): ", lurn_si_10_mean, " (", lurn_si_10_sd, ")    ",
                            "Median: ", lurn_si_10_mdn, "    ",
                            "Minimum: ", lurn_si_10_min, "    ",
-                           "Maximum: ", lurn_si_10_max, "\n",
-                           "Number of scores: ", lurn_si_10_n, "    ",
-                           "Number of missing scores: ", lurn_si_10_n_missing, "\n",
-                           "Mean number of valid responses: ",
-                           lurn_si_10_mean_n_valid)
+                           "Maximum: ", lurn_si_10_max, "\n")
   } else {
       caption_text <- NULL
     }
