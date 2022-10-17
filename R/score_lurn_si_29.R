@@ -34,13 +34,13 @@
 #' you will receive a friendly message encouraging you to check your input.
 #'
 #' @section Data type for LURN SI-29 items: We recommend that numeric type
-#' be used for the LURN SI-29 data. If you use factors,
+#' be used for the LURN SI-29 data. If your data are factors,
 #' then the function will stop and issue an error message. If you set
 #' "warn_or_stop" to "warn", the function will attempt to fix up your data
 #' and present a warning.
 #'
-#' @section Setting up Gender in your input:
-#' Your input needs to contain a variable "Gender" with numeric
+#' @section Setting up Sex in your input:
+#' Your input needs to contain a variable "SEX" with numeric
 #' values of "1" for female and "2" for male.
 #'
 #' @param transfer_vars A vector of variable names to be found in input.
@@ -62,7 +62,7 @@
 #' requested in transfer_vars.
 #'
 #' @seealso For a list of recommended variable names for the LURN SI-29,
-#' you can use this helper function: \code{lurn_si_29_names()}
+#' you can use this helper function: \code{\link{lurn_si_29_names}}
 #'
 #' @export
 #'
@@ -85,19 +85,18 @@ score_lurn_si_29 <- function(input,
                               transfer_vars = transfer_vars,
                               warn_or_stop = warn_or_stop)
 
-  # Check correspondence of gender and gender-specific questions
-  # Save vectors of 27a, 27b, and gender variable
+  # Check correspondence of SEX and sex-specific questions
+  # Save vectors of 27a, 27b, and SEX variable
   lurn_si_27a_women <- input[[si_29_names[27]]]
   lurn_si_27b_men <- input[[si_29_names[28]]]
-  gender <- input[["Gender"]]
+  sex <- input[["SEX"]]
 
-  gender_levels <- c(female = 1,
-                     male = 2)
+  sex_levels <- c(female = 1, male = 2)
 
-  check_si_29_gender_questions(lurn_si_27a_women,
-                               lurn_si_27b_men,
-                               gender,
-                               gender_levels)
+  check_si_29_sex_questions(lurn_si_27a_women,
+                            lurn_si_27b_men,
+                            sex,
+                            sex_levels)
 
   # Check for numeric and out-of-range questions across all 29 items
   check_si_29_items(si_29_items = input[si_29_names],
@@ -106,17 +105,7 @@ score_lurn_si_29 <- function(input,
   n <- nrow(input[si_29_names])
 
   # Recode factors to character type
-  si_29_items <- apply(input[si_29_names],
-                        2,
-                        function(item) {
-                          if (is.factor(item)) {
-                            as.character(item)
-                          } else {
-                            item
-                          }
-                        })
-
-  si_29_items <- as.data.frame(si_29_items)
+  si_29_items <- factor_cols_to_char(input[si_29_names])
 
   # Recode non-numeric to NA
   si_29_items <- suppressWarnings(
@@ -124,17 +113,8 @@ score_lurn_si_29 <- function(input,
 
   si_29_items <- as.data.frame(si_29_items)
 
-  lurn_si_29_item_ranges <- lurn_si_29_item_ranges(include_na = FALSE)
-
-  for (i in seq_along(colnames(si_29_items))) {
-
-    item <- si_29_items[[i]]
-
-    item[!item %in% lurn_si_29_item_ranges[[i]]] <- NA
-
-    si_29_items[[i]] <- item
-
-  }
+  recode_oor_in_col_to_na(si_29_items,
+                          lurn_si_29_item_ranges(include_na = FALSE))
 
   # Organise variables by subscale
   incontinence_item_names <- si_29_names[1:6]
@@ -178,16 +158,16 @@ score_lurn_si_29 <- function(input,
   lurn_si_29_total_count_valid <- count_not_na(si_29_items)
 
   # Create a vector for SI29_Q27
-  SI29_Q27 <- vector("numeric", nrow(si_29_items))
+  SI29_Q27 <- vector("numeric", n)
   SI29_Q27[] <- NA
 
-  # Recode to NA if gender (or "Gender" in the input) is not 1 or 2
-  gender[!gender %in% gender_levels] <- NA
+  # Recode to NA if sex (or "SEX" in the input) is not 1 or 2
+  sex[!sex %in% sex_levels] <- NA
 
-  for (i in seq_len(nrow(si_29_items))) {
-    if (gender[i] == gender_levels[1]) {
+  for (i in seq_len(n)) {
+    if (sex[i] == sex_levels[1]) {
       SI29_Q27[i] <- lurn_si_27a_women[i]
-    } else if (gender[i] == gender_levels[2]) {
+    } else if (sex[i] == sex_levels[2]) {
       SI29_Q27[i] <- lurn_si_27b_men[i]
     } else {
       SI29_Q27[i] <- NA

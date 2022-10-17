@@ -32,6 +32,5 @@ lurn_si_29_names(include = "female")
 
 #' Only male variable names
 lurn_si_29_names(include = "male")
-
 }
 }

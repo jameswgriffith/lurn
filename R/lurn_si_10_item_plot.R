@@ -3,14 +3,15 @@ lurn_si_10_item_plot <- function(x, title) {
 
   invisible(x)
 
-  x$id <- rownames(x)
+  x[["id"]] <- rownames(x)
 
   lurn_si_10_names <- lurn_si_10_names(include_bother_item = TRUE)
+  item_ranges <- lurn_si_10_item_ranges(include_na = TRUE)
 
   x <- stats::reshape(
     x,
     direction = "long",
-    v.names = "Item responses",
+    v.names = "Item response",
     timevar = "Item",
     times = lurn_si_10_names,
     varying = lurn_si_10_names,
@@ -18,26 +19,64 @@ lurn_si_10_item_plot <- function(x, title) {
 
   rownames(x) <- NULL
 
-  x$`Item responses` <-
-    ifelse(x$`Item responses` %in% 0:4 |
-             is.na(x$`Item responses`),
-           x$`Item responses`,
-           "Out-of-range/Character")
+  x[["Item response"]] <- as.character(x[["Item response"]])
+
+  for (i in seq_along(lurn_si_10_names)) {
+
+    item <- lurn_si_10_names[i]
+    rng <- item_ranges[[i]]
+    rng_nm <- c(names(rng), "Out-of-range")
+
+    match_j <- match(x[x$Item == item, "Item response"], rng, nomatch = length(rng) + 1)
+
+    x[x$Item == item, "Item response"] <- rng_nm[match_j]
+
+  }
 
   x$Item <- factor(x$Item,
                    levels = lurn_si_10_names)
 
-  x$`Item responses` <-
-    factor(x$`Item responses`,
-           levels = c(4, 3, 2, 1, 0, "Out-of-range/Character"))
+  item_levels <- c(
+    "Every time",
+    "Most of the time",
+    "About half the time",
+    "A few times",
+    "Never",
+    "11 or more times a day",
+    "8-10 times a day",
+    "4-7 times a day",
+    "3 or fewer times a day",
+    "More than 3 times",
+    "2-3 times",
+    "1 time",
+    "none",
+    "Extremely bothered",
+    "Very bothered",
+    "Somewhat bothered",
+    "Not at all bothered",
+    "Out-of-range",
+    NA)
 
-  colours <-
-    c("#0868ac",
-      "#43a2ca",
-      "#7bccc4",
-      "#bae4bc",
-      "#f0f9e8",
-      "#FF0000")
+  resp_colors <-
+    c("#08519c",
+      "#3182bd",
+      "#6baed6",
+      "#bdd7e7",
+      "#eff3ff",
+      "#d94701",
+      "#fd8d3c",
+      "#fdbe85",
+      "#feedde",
+      "#238b45",
+      "#74c476",
+      "#bae4b3",
+      "#edf8e9",
+      "#6a51a3",
+      "#9e9ac8",
+      "#cbc9e2",
+      "#f2f0f7",
+      "#FF0000",
+      "grey50")
 
   item_labels <- c(
     SI10_Q1 = "Q1: Urgency",
@@ -53,23 +92,20 @@ lurn_si_10_item_plot <- function(x, title) {
     SI10_BOTHER = "Bother")
 
   ggplot2::ggplot(x, ggplot2::aes(x = .data$Item,
-                                       fill = .data$`Item responses`)) +
+                                  fill = .data$`Item response`)) +
     ggplot2::geom_bar(position = "fill",
-                      colour = "black") +
+                      colour = "black",
+                      show.legend = TRUE) +
     ggplot2::scale_y_continuous(
       name = "Proportion or item responses",
       expand = c(0.005, 0.005),
       limits = c(0, 1)) +
-    ggplot2::scale_fill_manual(values = colours) +
+    ggplot2::scale_fill_manual(values = resp_colors,
+                               breaks = item_levels) +
     ggplot2::scale_x_discrete(
       "LURN SI-10 Item",
       labels = item_labels,
       expand = c(0.05, 0.05)) +
-    ggplot2::labs(caption =
-                    paste0("Q1-Q8: Never to Almost always (0-4); ",
-                           "Q9: 3 or fewer times to 11 or more times (0-3)\n",
-                           "Q10: None to more than 3 times (0-3); ",
-                           "Bother: Not at all to Extremely Bothered (0-3)")) +
     ggplot2::ggtitle(title) +
     ggplot2::theme(
       plot.caption = ggplot2::element_text(

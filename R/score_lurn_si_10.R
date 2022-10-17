@@ -128,7 +128,8 @@ score_lurn_si_10 <- function(input,
     item[!item %in% item_ranges[[i]]] <- NA
 
     si_10_recoded[[i]] <- item
-  }
+
+    }
 
   count_valid <- count_not_na(si_10_recoded)
 

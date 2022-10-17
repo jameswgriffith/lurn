@@ -24,7 +24,6 @@
 #'
 #' #' Only male variable names
 #' lurn_si_29_names(include = "male")
-#'
 #' }
 lurn_si_29_names <- function(
     include = c(
@@ -58,5 +57,4 @@ lurn_si_29_names <- function(
          all = si_29_all,
          female = si_29_female,
          male = si_29_male)
-
 }

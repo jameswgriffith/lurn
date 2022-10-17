@@ -34,43 +34,43 @@ check_args_score_lurn_si_29 <- function(input,
          call. = FALSE)
   }
 
-  gender_vname <- "Gender"
+  sex_vname <- "SEX"
 
-  # Is the name of the gender variable found in the input?
-  if (!gender_vname %in% names(input)) {
-    stop("The variable ", gender_vname, " is not found among ",
+  # Is the name of the sex variable found in the input?
+  if (!sex_vname %in% names(input)) {
+    stop("The variable ", sex_vname, " is not found among ",
          "the variable names of the input.\n",
          "Note: Case matters",
          "Please check your input and try again.",
          call. = FALSE)
   }
 
-  # Are the levels of the gender variable correct?
-  gender <- input[[gender_vname]]
+  # Are the levels of the sex variable correct?
+  sex <- input[[sex_vname]]
 
-  gender_levels <- c(female = 1, male = 2)
+  sex_levels <- c(female = 1, male = 2)
 
-  if (any(!gender %in% gender_levels)) {
+  if (any(!sex %in% c(sex_levels, NA))) {
     if (warn_or_stop == "stop") {
-      stop("The variable for Gender contains values besides 1 and 2.\n ",
-           "Please code ", gender_vname, " as follows:\n",
+      stop("The variable for sex contains values besides 1 and 2.\n ",
+           "Please code ", sex_vname, " as follows:\n",
            "1 = female\n",
            "2 = male\n",
            "NA = missing and/or other values\n\n",
-           "Any missing values for Gender will result ",
+           "Any missing values for SEX will result ",
            "in missing LURN SI-29 scores.",
       call. = FALSE)
       }
 
     if (warn_or_stop == "warn") {
-      warning("The variable for Gender contains values besides 1 and 2.\n ",
-           "Please ensure ", gender_vname, " is coded as follows:\n",
+      warning("The variable for sex contains values besides 1 and 2.\n ",
+           "Please ensure ", sex_vname, " is coded as follows:\n",
            "1 = female\n",
            "2 = male\n",
            "NA = missing and/or other values\n\n",
-           "Any missing values for Gender will result ",
+           "Any missing values for SEX will result ",
            "in missing LURN SI-29 scores.\n\n",
-           "Values in Gender outside 1 or 2 will be recoded to NA.\n",
+           "Values in SEX outside 1 or 2 will be recoded to NA.\n",
       call. = FALSE,
       immediate. = TRUE)
       }
