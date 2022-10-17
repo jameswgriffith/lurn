@@ -26,8 +26,11 @@ lurn_si_10_item_plot <- function(x, title) {
     item <- lurn_si_10_names[i]
     rng <- item_ranges[[i]]
     rng_nm <- c(names(rng), "Out-of-range")
+    rng_nm[rng_nm == ""] <- NA
 
-    match_j <- match(x[x$Item == item, "Item response"], rng, nomatch = length(rng) + 1)
+    match_j <- match(x[x$Item == item, "Item response"],
+                     rng,
+                     nomatch = length(rng) + 1)
 
     x[x$Item == item, "Item response"] <- rng_nm[match_j]
 
@@ -56,6 +59,9 @@ lurn_si_10_item_plot <- function(x, title) {
     "Not at all bothered",
     "Out-of-range",
     NA)
+
+  x$`Item response` <- factor(x$`Item response`,
+                              levels = item_levels)
 
   resp_colors <-
     c("#08519c",
@@ -90,6 +96,8 @@ lurn_si_10_item_plot <- function(x, title) {
     SI10_Q9 = "Q9: Daytime frequency",
     SI10_Q10 = "Q10: Nightime frequency",
     SI10_BOTHER = "Bother")
+
+  # print(unique(x$`Item response`))
 
   ggplot2::ggplot(x, ggplot2::aes(x = .data$Item,
                                   fill = .data$`Item response`)) +
