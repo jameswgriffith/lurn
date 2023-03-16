@@ -1,7 +1,6 @@
 check_args_score_lurn_si_10 <- function(input,
                                         transfer_vars,
-                                        warn_or_stop,
-                                        output_LURN_class) {
+                                        warn_or_stop) {
 
   si_10_names <- lurn_si_10_names(include_bother_item = FALSE)
 
@@ -53,18 +52,6 @@ check_args_score_lurn_si_10 <- function(input,
          "For transfer_vars, ",
          "choose only variable names that are found in your input.",
     call. = FALSE)
-  }
-
-  if(output_LURN_class &&
-     !all(lurn_si_10_names() %in% transfer_vars)) {
-
-    stop("output_LURN_class is set to TRUE, but ",
-    "some necessary variables are missing from transfer_vars.\n\n",
-    "Please fix your function call and try again.\n\n",
-    "If output_LURN_class is TRUE, transfer_vars must contain these variables:\n\n",
-    paste(lurn_si_10_names(), collapse = " "),
-    call. = FALSE)
-
   }
 
   invisible(NULL)

@@ -4,7 +4,7 @@
 \name{lurn-package}
 \alias{lurn}
 \alias{lurn-package}
-\title{lurn: Tools for LURN Research: Scoring the LURN SI-10 and LURN SI-29}
+\title{lurn: A package for scoring the LURN SI-10 and LURN SI-29 questionnaires.}
 \description{
 This package is primarily use for scoring of the LURN SI-10 and LURN SI-29. Additional tools related to LURN research may be added in the future.
 }

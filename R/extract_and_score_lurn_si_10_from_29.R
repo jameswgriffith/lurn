@@ -1,7 +1,7 @@
 #' Extracts the scores for the LURN SI-10 from the LURN SI-29.
 #'
 #' @description All of the items in the LURN SI-10 are contained in the
-#' LURN SI-29. This function returns takes a dataframe, extracts the
+#' LURN SI-29. This function takes a dataframe, extracts the
 #' LURN SI-10 items from the LURN SI-29, and calculates the LURN SI-10 score.
 #' The LURN SI-10 score, bother item are returned, along with any
 #' with any other variables from "input" that you request.
@@ -58,7 +58,7 @@
 #'
 #' @section Setting up SEX in your input:
 #' Your input needs to contain a variable "SEX" with numeric
-#' values of "1" for female and "2" for male.
+#' values of "1" for male and "2" for female.
 #'
 #' @param transfer_vars A vector of variable names to be found in input.
 #' These variables will be returned in the output along with
@@ -85,9 +85,9 @@
 #'
 #' @examples
 #' \dontrun{
-#' score_lurn_si_29(some_si_29_data)
+#' extract_and_score_lurn_si_10_from_29(some_si_29_data)
 #'
-#' score_lurn_si_29(input = lurn_si_29_data)
+#' extract_and_score_lurn_si_10_from_29(input = lurn_si_29_data)
 #' }
 extract_and_score_lurn_si_10_from_29 <- function(input,
                                         transfer_vars = names(input),
@@ -98,9 +98,9 @@ extract_and_score_lurn_si_10_from_29 <- function(input,
   si_29_names <- lurn_si_29_names()
 
   # Check the input for errors
-  check_args_score_lurn_si_29(input = input,
-                              transfer_vars = transfer_vars,
-                              warn_or_stop = warn_or_stop)
+  check_args_si_10_from_29(input = input,
+                           transfer_vars = transfer_vars,
+                           warn_or_stop = warn_or_stop)
 
   n <- nrow(input[si_29_names])
 
@@ -116,10 +116,10 @@ extract_and_score_lurn_si_10_from_29 <- function(input,
   recode_oor_in_col_to_na(si_29_items,
                           lurn_si_29_item_ranges(include_na = FALSE))
 
-  # Select only the items the LURN SI-10
+  # Select only the items overlapping with the LURN SI-10
   si_10_item_names <- lurn_si_10_names_from_29(include_bother = FALSE)
 
-  # Save dataframes for LURN SI-10 from LURN SI-29
+  # Save dataframe for LURN SI-10 from LURN SI-29
   si_10_from_29 <- si_29_items[si_10_item_names]
 
   count_valid <- count_not_na(si_10_from_29)

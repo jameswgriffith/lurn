@@ -36,7 +36,7 @@ A dataframe of output containing the SI-10 score, bother item,
 }
 \description{
 All of the items in the LURN SI-10 are contained in the
-LURN SI-29. This function returns takes a dataframe, extracts the
+LURN SI-29. This function takes a dataframe, extracts the
 LURN SI-10 items from the LURN SI-29, and calculates the LURN SI-10 score.
 The LURN SI-10 score, bother item are returned, along with any
 with any other variables from "input" that you request.
@@ -98,14 +98,14 @@ and present a warning.
 \section{Setting up SEX in your input}{
 
 Your input needs to contain a variable "SEX" with numeric
-values of "1" for female and "2" for male.
+values of "1" for male and "2" for female.
 }
 
 \examples{
 \dontrun{
-score_lurn_si_29(some_si_29_data)
+extract_and_score_lurn_si_10_from_29(some_si_29_data)
 
-score_lurn_si_29(input = lurn_si_29_data)
+extract_and_score_lurn_si_10_from_29(input = lurn_si_29_data)
 }
 }
 \seealso{

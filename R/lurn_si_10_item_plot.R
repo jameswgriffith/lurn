@@ -1,7 +1,42 @@
-#' @importFrom rlang .data
-lurn_si_10_item_plot <- function(x, title) {
+#' Uses the \href{https://ggplot2.tidyverse.org/}{ggplot2} and
+#' \href{https://patchwork.data-imaginist.com/}{patchwork} packages to create a
+#' set of stacked bar plots for for the LURN SI-10, which shows the proportion
+#' of item responses for each item (All 10 symptom items, plus the bother item).
+#'
+#' @description Any responses that are out-of-range or character data will
+#' be shown in red, to signal potential issues with data quality.
+#'
+#' @param input A dataframe containing LURN SI-10 items. Other columns may
+#' also be present. The items of the SI-10 must use the recommended names:
+#' SI10_Q1-SI10_Q10, and SI10_BOTHER. Case matters for the variable names;
+#' the variable names must be in uppercase.
+#'
+#' @param title We encourage you to use a descriptive title for your plot.
+#' This parameter is NULL by default, which will not include a title.
+#'
+#' @section Item response coding: Items 1-8 are coded with 0-4;
+#' Items 9, 10 are coded with 0-3;
+#' the bother question is coded with 0-3.
+#' This coding must be respected in order for the plot to be produced properly.
+#'
+#' @return A patchwork object.
+#'
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' lurn_si_10_item_plot(lurn_si_10_test_data)
+#'
+#' # Save the plot
+#' si10_item_plot <- lurn_si_10_item_plot(lurn_si_10_test_data)
+#'
+#' }
+lurn_si_10_item_plot <- function(input, title = NULL) {
 
-  invisible(x)
+  x <- input
+
+  # Check for errors in the input
+  error_check_si_10_item_plot(x, title)
 
   x[["id"]] <- rownames(x)
 
@@ -36,102 +71,41 @@ lurn_si_10_item_plot <- function(x, title) {
 
   }
 
-  x$Item <- factor(x$Item,
-                   levels = lurn_si_10_names)
+  x$`Item response`[is.na(x$`Item response`)] <- "Missing (NA)"
 
-  item_levels <- c(
-    "Every time",
-    "Most of the time",
-    "About half the time",
-    "A few times",
-    "Never",
-    "11 or more times a day",
-    "8-10 times a day",
-    "4-7 times a day",
-    "3 or fewer times a day",
-    "More than 3 times",
-    "2-3 times",
-    "1 time",
-    "none",
-    "Extremely bothered",
-    "Very bothered",
-    "Somewhat bothered",
-    "Not at all bothered",
-    "Out-of-range",
-    NA)
+  # Here, one creates four separate data frames, one for each item type
+  x1 <- x[x$Item %in% lurn_si_10_names[1:8], , drop = FALSE]
+  x2 <- x[x$Item %in% lurn_si_10_names[9], , drop = FALSE]
+  x3 <- x[x$Item %in% lurn_si_10_names[10], , drop = FALSE]
+  x4 <- x[x$Item %in% lurn_si_10_names[11], , drop = FALSE]
 
-  x$`Item response` <- factor(x$`Item response`,
-                              levels = item_levels)
+  x1$Item <- factor(x1$Item)
+  x2$Item <- factor(x2$Item)
+  x3$Item <- factor(x3$Item)
+  x4$Item <- factor(x4$Item)
 
-  resp_colors <-
-    c("#08519c",
-      "#3182bd",
-      "#6baed6",
-      "#bdd7e7",
-      "#eff3ff",
-      "#d94701",
-      "#fd8d3c",
-      "#fdbe85",
-      "#feedde",
-      "#238b45",
-      "#74c476",
-      "#bae4b3",
-      "#edf8e9",
-      "#6a51a3",
-      "#9e9ac8",
-      "#cbc9e2",
-      "#f2f0f7",
-      "#FF0000",
-      "grey50")
+  item_levels <- item_plot_levels()
 
-  item_labels <- c(
-    SI10_Q1 = "Q1: Urgency",
-    SI10_Q2 = "Q2: UUI",
-    SI10_Q3 = "Q3: SUI: Laugh/Sneeze/Cough",
-    SI10_Q4 = "Q4: SUI: Straining",
-    SI10_Q5 = "Q5: Pain with filling",
-    SI10_Q6 = "Q6: Hesitancy",
-    SI10_Q7 = "Q7: Weak stream",
-    SI10_Q8 = "Q8: Post-void dribbling",
-    SI10_Q9 = "Q9: Daytime frequency",
-    SI10_Q10 = "Q10: Nightime frequency",
-    SI10_BOTHER = "Bother")
+  x1$`Item response` <- factor(x1$`Item response`,
+                               levels = item_levels[["SI10_Q1_Q8"]])
 
-  # print(unique(x$`Item response`))
+  x2$`Item response` <- factor(x2$`Item response`,
+                               levels = item_levels[["SI10_Q9"]])
 
-  ggplot2::ggplot(x, ggplot2::aes(x = .data$Item,
-                                  fill = .data$`Item response`)) +
-    ggplot2::geom_bar(position = "fill",
-                      colour = "black",
-                      show.legend = TRUE) +
-    ggplot2::scale_y_continuous(
-      name = "Proportion or item responses",
-      expand = c(0.005, 0.005),
-      limits = c(0, 1)) +
-    ggplot2::scale_fill_manual(values = resp_colors,
-                               breaks = item_levels) +
-    ggplot2::scale_x_discrete(
-      "LURN SI-10 Item",
-      labels = item_labels,
-      expand = c(0.05, 0.05)) +
-    ggplot2::ggtitle(title) +
-    ggplot2::theme(
-      plot.caption = ggplot2::element_text(
-        hjust = 0.0,
-        face = "bold",
-        size = ggplot2::rel(1.1)),
-      axis.line = ggplot2::element_line(size = ggplot2::rel(0.5),
-                                        colour = "black",
-                                        linetype = 1),
-      axis.text.x = ggplot2::element_text(
-        angle = -45,
-        vjust = 0.5,
-        hjust = 0.025,
-        size = ggplot2::rel(1.2)),
-      axis.text.y = ggplot2::element_text(
-        size = ggplot2:: rel(1.1)),
-      axis.title = ggplot2::element_text(
-        size = ggplot2::rel(1.3),
-        face = "bold"),
-      plot.title = ggplot2::element_text(size = ggplot2::rel(1.5)))
+  x3$`Item response` <- factor(x3$`Item response`,
+                               levels = item_levels[["SI10_Q10"]])
+
+  x4$`Item response` <- factor(x4$`Item response`,
+                               levels = item_levels[["SI10_BOTHER"]])
+
+  # Create constituent plots for patchwork
+  item_plot_Q1_Q8 <- item_plot_Q1_Q8(x1)
+  item_plot_Q9 <- item_plot_Q9(x2)
+  item_plot_Q10 <- item_plot_Q10(x3)
+  item_plot_bother <- item_plot_bother(x4)
+
+  p <- item_plot_Q1_Q8 + (item_plot_Q9 / item_plot_Q10 / item_plot_bother)
+
+  p + patchwork::plot_annotation(title = title)
+
 }

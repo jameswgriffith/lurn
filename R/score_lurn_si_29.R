@@ -20,7 +20,7 @@
 #' @section Setting up your input:
 #' You must use the recommended variables names for the LURN SI-29, which
 #' have the form SI29_Q1, SI29_Q2, etc. For item #27, there is SI29_Q27a
-#' for women, and SI29_Q27b for men.
+#' for women (SEX = 2), and SI29_Q27b for men (SEX = 1).
 #' You can use \code{lurn_si_29_names()} to obtain a list of the
 #' recommended variable names.
 #'
@@ -41,7 +41,7 @@
 #'
 #' @section Setting up Sex in your input:
 #' Your input needs to contain a variable "SEX" with numeric
-#' values of "1" for female and "2" for male.
+#' values of "1" for male and "2" for female.
 #'
 #' @param transfer_vars A vector of variable names to be found in input.
 #' These variables will be returned in the output along with
@@ -91,7 +91,7 @@ score_lurn_si_29 <- function(input,
   lurn_si_27b_men <- input[[si_29_names[28]]]
   sex <- input[["SEX"]]
 
-  sex_levels <- c(female = 1, male = 2)
+  sex_levels <- c(male = 1, female = 2)
 
   check_si_29_sex_questions(lurn_si_27a_women,
                             lurn_si_27b_men,
@@ -165,9 +165,9 @@ score_lurn_si_29 <- function(input,
   sex[!sex %in% sex_levels] <- NA
 
   for (i in seq_len(n)) {
-    if (sex[i] == sex_levels[1]) {
+    if (!is.na(sex[i]) && sex[i] == sex_levels[2]) {
       SI29_Q27[i] <- lurn_si_27a_women[i]
-    } else if (sex[i] == sex_levels[2]) {
+    } else if (!is.na(sex[i]) && sex[i] == sex_levels[1]) {
       SI29_Q27[i] <- lurn_si_27b_men[i]
     } else {
       SI29_Q27[i] <- NA

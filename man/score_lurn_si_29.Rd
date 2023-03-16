@@ -52,7 +52,7 @@ will be coerced to numeric as part of the scoring.
 
 You must use the recommended variables names for the LURN SI-29, which
 have the form SI29_Q1, SI29_Q2, etc. For item #27, there is SI29_Q27a
-for women, and SI29_Q27b for men.
+for women (SEX = 2), and SI29_Q27b for men (SEX = 1).
 You can use \code{lurn_si_29_names()} to obtain a list of the
 recommended variable names.
 }
@@ -79,7 +79,7 @@ and present a warning.
 \section{Setting up Sex in your input}{
 
 Your input needs to contain a variable "SEX" with numeric
-values of "1" for female and "2" for male.
+values of "1" for male and "2" for female.
 }
 
 \examples{

@@ -2,11 +2,7 @@
 #'
 #' @description This function returns takes a dataframe, extracts the
 #' LURN SI-10 items, calculates the LURN SI-10 score, and returns the
-#' score along with any other requested variables from the input. If
-#' output_LURN_class is set to TRUE and all of the LURN SI-10 items
-#' are in transfer_vars (this will be true by  default),
-#' then the output will be given an additional class of
-#' "LURN_SI_10", enabling additional S3 methods (e.g., plot, summary).
+#' score along with any other requested variables from the input.
 #'
 #' @details
 #' If only a subset of variables are desired to be returned,
@@ -61,23 +57,12 @@
 #' non-numeric or out-of-range data are present, which are then recoded
 #' to NA with a warning message.
 #'
-#' @param output_LURN_class If set to TRUE, your dataframe output will
-#' receive an additional class of "LURN_SI_10", which enable some
-#' LURN-specific plots and summaries using summary(), plot(), and
-#' autoplot() (a generic method of ggplot2). It is set to FALSE by default.
-#' If you do request output using the "LURN_SI_10" class, you can remove it
-#' later using remove_LURN_class().
-#'
 #' @seealso For a list of recommended variable names for the LURN SI-10,
 #' you can use this helper function: \code{lurn_si_10_names()}
 #'
 #' @return A dataframe of output containing LURN SI-10 scores,
 #' a count of valid items, and a scoring note. Any variables
-#' requested in transfer_vars will also be returned. If all of the LURN SI-10
-#' items are returned with the output, and output_LURN_class = TRUE,
-#' then the output will be given an
-#' additional class of "LURN_SI_10" for additional methods
-#' (e.g., plot.LURN_SI_10).
+#' requested in transfer_vars will also be returned.
 #'
 #' @export
 #'
@@ -87,16 +72,14 @@
 #' }
 score_lurn_si_10 <- function(input,
                              transfer_vars = names(input),
-                             warn_or_stop = c("stop", "warn"),
-                             output_LURN_class = FALSE) {
+                             warn_or_stop = c("stop", "warn")) {
 
   warn_or_stop <- match.arg(warn_or_stop)
 
   # Check for errors in the the arguments
   check_args_score_lurn_si_10(input = input,
                               transfer_vars = transfer_vars,
-                              warn_or_stop = warn_or_stop,
-                              output_LURN_class = output_LURN_class)
+                              warn_or_stop = warn_or_stop)
 
   si_10_names <- lurn_si_10_names(include_bother_item = FALSE)
 
@@ -173,12 +156,6 @@ score_lurn_si_10 <- function(input,
     lurn_si_10_output,
     check.names = TRUE)
 
-  # Return output
-  if (output_LURN_class &&
-      all(lurn_si_10_names(include_bother_item = TRUE) %in% names(output))) {
-    add_LURN_SI_10_class(output)
-  } else {
-    output
-  }
+  return(output)
 
 }

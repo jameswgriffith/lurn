@@ -7,8 +7,7 @@
 score_lurn_si_10(
   input,
   transfer_vars = names(input),
-  warn_or_stop = c("stop", "warn"),
-  output_LURN_class = FALSE
+  warn_or_stop = c("stop", "warn")
 )
 }
 \arguments{
@@ -37,31 +36,16 @@ will need to fix your input in order to proceed.
 If warn_or_stop is set to "warn", then warnings will notify you that
 non-numeric or out-of-range data are present, which are then recoded
 to NA with a warning message.}
-
-\item{output_LURN_class}{If set to TRUE, your dataframe output will
-receive an additional class of "LURN_SI_10", which enable some
-LURN-specific plots and summaries using summary(), plot(), and
-autoplot() (a generic method of ggplot2). It is set to FALSE by default.
-If you do request output using the "LURN_SI_10" class, you can remove it
-later using remove_LURN_class().}
 }
 \value{
 A dataframe of output containing LURN SI-10 scores,
 a count of valid items, and a scoring note. Any variables
-requested in transfer_vars will also be returned. If all of the LURN SI-10
-items are returned with the output, and output_LURN_class = TRUE,
-then the output will be given an
-additional class of "LURN_SI_10" for additional methods
-(e.g., plot.LURN_SI_10).
+requested in transfer_vars will also be returned.
 }
 \description{
 This function returns takes a dataframe, extracts the
 LURN SI-10 items, calculates the LURN SI-10 score, and returns the
-score along with any other requested variables from the input. If
-output_LURN_class is set to TRUE and all of the LURN SI-10 items
-are in transfer_vars (this will be true by  default),
-then the output will be given an additional class of
-"LURN_SI_10", enabling additional S3 methods (e.g., plot, summary).
+score along with any other requested variables from the input.
 }
 \details{
 If only a subset of variables are desired to be returned,
