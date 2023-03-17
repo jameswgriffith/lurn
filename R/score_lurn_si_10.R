@@ -41,7 +41,11 @@
 #' then the function will stop with an error message. If you set
 #' "warn_or_stop" to "warn", the function will attempt to fix up your data
 #' and present a warning.
-
+#'
+#' @section Long versus Wide longitudinal data: We recommend using long data
+#' for longitudinal datasets for scoring LURN SI data
+#' (i.e., one row per time point).
+#'
 #' @param transfer_vars A vector of variable names to be found in input.
 #' These variables will be returned in the output along with the
 #' LURN SI-10 scores.

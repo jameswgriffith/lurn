@@ -13,7 +13,7 @@
 #'
 #' @seealso You can use \code{score_lurn_si_10()} to score the LURN SI-10.
 #'
-#' @return NULL. This function only prints the results.
+#' @return NULL is returned. The results are only printed.
 #'
 #' @export
 #'
@@ -22,6 +22,19 @@
 #' summary(lurn_si_10_test_data)
 #' }
 summarize_lurn_si_10 <- function(input, digits = 1) {
+
+  # Determine whether input contains lurn_si_10_score and lurn_si_10_count_valid
+  if (!all(c("lurn_si_10_score", "lurn_si_10_count_valid") %in%
+           names(input))) {
+    message("\nThe scores and the valid item count for the LURN SI-10 ",
+            "were not found in the input. I will attempt to score the items ",
+            "for you.\n\n",
+            "The missing variable names are lurn_si_10_score and ",
+            "lurn_si_10_count_valid, which are returned by score_lurn_si_10().",
+            "\n")
+    scored_input <- score_lurn_si_10(input)
+    return(summarize_lurn_si_10(scored_input))
+  }
 
   # Check for errors in the input
   error_check_summarize_lurn_si_10(x = input, digits = digits)
@@ -71,7 +84,9 @@ summarize_lurn_si_10 <- function(input, digits = 1) {
 
   cat("\nSummary statistics for LURN SI-10\n\n")
 
-  output
+  print(output)
+
+  invisible(NULL)
 
 }
 

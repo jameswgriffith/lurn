@@ -43,6 +43,10 @@
 #' Your input needs to contain a variable "SEX" with numeric
 #' values of "1" for male and "2" for female.
 #'
+#' @section Long versus Wide longitudinal data: We recommend using long data
+#' for longitudinal datasets for scoring LURN SI data
+#' (i.e., one row per time point).
+#'
 #' @param transfer_vars A vector of variable names to be found in input.
 #' These variables will be returned in the output along with
 #' the LURN SI-29 scores.

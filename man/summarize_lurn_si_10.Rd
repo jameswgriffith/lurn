@@ -17,7 +17,7 @@ For the proportion of missing data, as least two decimals will be
 shown.}
 }
 \value{
-NULL. This function only prints the results.
+NULL is returned. The results are only printed.
 }
 \description{
 Summarizes the LURN SI-10, using data supplied in a dataframe

@@ -82,6 +82,12 @@ Your input needs to contain a variable "SEX" with numeric
 values of "1" for male and "2" for female.
 }
 
+\section{Long versus Wide longitudinal data}{
+ We recommend using long data
+for longitudinal datasets for scoring LURN SI data
+(i.e., one row per time point).
+}
+
 \examples{
 \dontrun{
 score_lurn_si_29(some_si_29_data)

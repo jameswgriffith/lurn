@@ -78,6 +78,12 @@ then the function will stop with an error message. If you set
 and present a warning.
 }
 
+\section{Long versus Wide longitudinal data}{
+ We recommend using long data
+for longitudinal datasets for scoring LURN SI data
+(i.e., one row per time point).
+}
+
 \examples{
 \dontrun{
 score_lurn_si_10(input = lurn_si_10_test_data)

@@ -1,3 +1,43 @@
+#' Uses ggplot2 to create a histogram for the LURN SI-10.
+#'
+#' @description For the binning of the histogram, intervals of [0, 2), [2, 4)
+#' and so on are used.
+#'
+#' @param input A dataframe containing LURN SI-10 items. Other columns may
+#' also be present. The items of the SI-10 must use the recommended names:
+#' SI10_Q1-SI10_Q10, and SI10_BOTHER. Case matters for the variable names. If
+#' the SI-10 has already been scored, the function will look for the score to
+#' create the plot. Otherwise, the function will attempt to score the SI-10 in
+#' order to create the histogram.
+#'
+#' @param title We encourage you to use a descriptive title for your plot.
+#' This is NULL by default, which will not include a title.
+#'
+#' @param hist_caption_stats Logical parameter allowing you to choose
+#' whether you would like LURN SI-10 statistics to be printed in the
+#' caption of your histogram.
+#'
+#' @param hist_color This is set to a pale blue-green by default ("#7bccc4").
+#' If you prefer a black-and-white graph, we recommend "darkgray"
+#'
+#' @param digits The number of decimals to display in the histogram caption.
+#' (set to 1 by default).
+#'
+#' @section For the LURN SI-10 Item response coding:
+#' Items 1-8 are coded with 0-4;
+#' Items 9, 10 are coded with 0-3;
+#' the bother question is coded with 0-3.
+#' This coding must be respected in order for the plot to be properly produced.
+#'
+#' @return A ggplot2 object.
+#'
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' lurn_si_10_histogram(some_data,
+#' title = "My title goes here")
+#' }
 lurn_si_10_histogram <- function(input,
                                  title = NULL,
                                  hist_caption_stats = TRUE,
@@ -22,8 +62,6 @@ lurn_si_10_histogram <- function(input,
     scored_input <- score_lurn_si_10(input)
     return(lurn_si_10_histogram(scored_input))
   }
-
-
 
   if (hist_caption_stats) {
 
