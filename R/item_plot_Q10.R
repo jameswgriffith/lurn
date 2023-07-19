@@ -36,7 +36,9 @@ item_plot_Q10 <- function(x) {
         vjust = 0.5,
         hjust = 0.025),
       axis.title = ggplot2::element_text(
-        face = "bold")) +
+        face = "bold"),
+      text = ggplot2::element_text(size = 17),
+      plot.margin = ggplot2::margin(t = 40, r = 0, b = 40, l = 0)) +
     ggplot2::coord_flip()
 
 }

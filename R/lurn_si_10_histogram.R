@@ -115,7 +115,8 @@ lurn_si_10_histogram <- function(input,
                        breaks = seq(0, 38, by = 2),
                        expand = ggplot2::expansion(add = c(1, 1))) +
     ggplot2::scale_y_continuous(name = "Count",
-      expand = ggplot2::expansion(mult = c(0, .05))) +
+      minor_breaks = NULL,
+      expand = ggplot2::expansion(mult = c(0, .2))) +
     ggplot2::labs(caption = caption_text) +
     ggplot2::ggtitle(title) +
     ggplot2::theme(axis.line = ggplot2::element_line(size = 0.5,

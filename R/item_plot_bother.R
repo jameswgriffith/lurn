@@ -36,6 +36,7 @@ item_plot_bother <- function(x) {
         vjust = 0.5,
         hjust = 0.025),
       axis.title = ggplot2::element_text(
-        face = "bold")) +
+        face = "bold"),
+      text = ggplot2::element_text(size = 17)) +
     ggplot2::coord_flip()
 }
